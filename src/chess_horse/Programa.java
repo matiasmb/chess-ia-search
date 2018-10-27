@@ -7,14 +7,14 @@ public class Programa {
      * @param args the command line arguments
      */
     static ArrayList <Integer> nivel= new ArrayList ();
-    private static ArrayList <Integer> result = new  ArrayList();
-    private static ArrayList <Integer> piezasamatar = new  ArrayList();
-    private static ArrayList <ArrayList <Integer>> abiertos = new ArrayList();  //ver pero creo q esta bien
-    private static ArrayList <Integer> resultadoff=new ArrayList();
-    private static int anterior=234;
-    private static int control=0;   //variable global
-    private static int corte=0;
-    static int total;
+    public static ArrayList <Integer> result = new  ArrayList();
+    public static ArrayList <Integer> piezasamatar = new  ArrayList();
+    public static ArrayList <ArrayList <Integer>> abiertos = new ArrayList();  //ver pero creo q esta bien
+    public static ArrayList <Integer> resultadoff=new ArrayList();
+    public static int anterior=234;
+    public static int control=0;   //variable global
+    public static int corte=0;
+    public static int total;
     
     public static void  resetear() {
         result.clear();
@@ -212,11 +212,11 @@ public class Programa {
     boolean p=true;
     
     for (int pp=0;pp< piezasamatar.size();pp++){
-        boolean z=false;
+        boolean z=true;
         ArrayList <Integer> posicionesaborrar= new ArrayList();
         for (int u=0;u<f.length;u++){
             if(f[u]== piezasamatar.get(pp) & !posicionesaborrar.contains(pp) ) {
-                z=true; posicionesaborrar.add(pp);
+                z=false; posicionesaborrar.add(pp);
             } //saco esa pieza de las piezas a matar}}
         }
         if (z) {
@@ -269,12 +269,11 @@ public class Programa {
                 arraydenivel[r]=nivel.get(r);
             }
             
-            
             for (int y=0; y<((arraydenivel.length)/niv);y++){
                 int c[]=new int[niv];
                 System.arraycopy(arraydenivel, y*niv, c,0, niv);
                 boolean t=Programa.mataralguno(c);
-                if (t==true)
+                if (t)
                     return(result);   
             }
 

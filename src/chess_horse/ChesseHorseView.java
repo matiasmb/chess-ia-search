@@ -905,17 +905,17 @@ public class ChesseHorseView extends FrameView {
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
         mainPanel.add(jLabel2);
-        jLabel2.setBounds(490, 390, 190, 30);
+        jLabel2.setBounds(50, 470, 400, 30);
 
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
         jLabel4.setName("jLabel4"); // NOI18N
         mainPanel.add(jLabel4);
-        jLabel4.setBounds(490, 420, 190, 20);
+        jLabel4.setBounds(50, 510, 410, 20);
 
         jLabel7.setText(resourceMap.getString("jLabel7.text")); // NOI18N
         jLabel7.setName("jLabel7"); // NOI18N
         mainPanel.add(jLabel7);
-        jLabel7.setBounds(490, 450, 360, 20);
+        jLabel7.setBounds(50, 550, 410, 20);
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
@@ -1356,9 +1356,9 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
 
     //pintarbarrita();
    
-        jRadioButton5.setSelected(false);
-        jRadioButton7.setSelected(false);
-        //jLabel11.setText("procesando..");
+    jRadioButton5.setSelected(false);
+    jRadioButton7.setSelected(false);
+    //jLabel11.setText("procesando..");
    
   
 
@@ -1382,7 +1382,7 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
 
    jLabel2.setText("Tiempo       " +String.valueOf(timeStart)+" milisegundos");// setLastTime();
    jLabel4.setText("Solucion en  "+String.valueOf(result.size())+" movimientos" );
-  float h= (float)g / (float)result.size();
+   float h= (float)g / (float)result.size();
    jLabel7.setText( "Piezas a matar " + String.valueOf(g) +  "  eficiencia = "+ h );
 
 
