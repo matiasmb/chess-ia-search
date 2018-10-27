@@ -541,7 +541,7 @@ public class ChesseHorseView extends FrameView {
             }
         });
         jPanel3.add(jButton1);
-        jButton1.setBounds(140, 150, 119, 29);
+        jButton1.setBounds(140, 170, 119, 29);
 
         jTextField2.setText(resourceMap.getString("jTextField2.text")); // NOI18N
         jTextField2.setName("jTextField2"); // NOI18N
@@ -559,12 +559,14 @@ public class ChesseHorseView extends FrameView {
         jLabel15.setBounds(334, 58, 69, 20);
 
         jLabel17.setText(resourceMap.getString("jLabel17.text")); // NOI18N
+        jLabel17.setToolTipText(resourceMap.getString("jLabel17.toolTipText")); // NOI18N
+        jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabel17.setName("jLabel17"); // NOI18N
         jPanel3.add(jLabel17);
-        jLabel17.setBounds(10, 110, 330, 40);
+        jLabel17.setBounds(10, 110, 370, 60);
 
         mainPanel.add(jPanel3);
-        jPanel3.setBounds(480, 370, 340, 180);
+        jPanel3.setBounds(480, 370, 390, 210);
 
         jLabel006.setIcon(resourceMap.getIcon("jLabel006.icon")); // NOI18N
         jLabel006.setName("jLabel006"); // NOI18N
@@ -925,7 +927,7 @@ public class ChesseHorseView extends FrameView {
         jScrollPane1.setViewportView(jTextArea1);
 
         mainPanel.add(jScrollPane1);
-        jScrollPane1.setBounds(820, 380, 100, 170);
+        jScrollPane1.setBounds(880, 380, 100, 170);
 
         menuBar.setName("menuBar"); // NOI18N
 
@@ -973,11 +975,11 @@ public class ChesseHorseView extends FrameView {
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 970, Short.MAX_VALUE)
+            .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 1025, Short.MAX_VALUE)
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 800, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 861, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusAnimationLabel)
@@ -1296,6 +1298,11 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
 
 
     private void jRadioButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton7MouseClicked
+   
+    jLabel17.setVisible(true);
+    jPanel3.setComponentZOrder(jLabel17, 0);
+    jPanel3.repaint();     
+        
    jRadioButton5.setSelected(false);jRadioButton6.setSelected(false);
    timeStart=System.nanoTime(); Programa.cargacorte(Integer.parseInt(jTextField2.getText()));
    //marcarlahora();
@@ -1312,7 +1319,6 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
   float h= (float)g / (float)result.size();
    jLabel7.setText( "Piezas a matar " + String.valueOf(g) +  "  eficiencia = "+ h );
 
-   // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton7MouseClicked
 
     void setLastTime(){
@@ -1320,7 +1326,13 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
     jLabel2.setText(g);
     timer.stop();
     }
+    
     private void jRadioButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton5MouseClicked
+   
+    jLabel17.setVisible(true);
+    jPanel3.setComponentZOrder(jLabel17, 0);
+    jPanel3.repaint();     
+        
    jRadioButton6.setSelected(false);
    jRadioButton7.setSelected(false);
    timeStart=System.nanoTime();
@@ -1343,27 +1355,18 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
     }//GEN-LAST:event_jRadioButton5MouseClicked
 
 
-
-
-
-
-
     private void jRadioButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton6MouseClicked
    
     jLabel17.setVisible(true);
     jPanel3.setComponentZOrder(jLabel17, 0);
     jPanel3.repaint();
-
-    //pintarbarrita();
    
     jRadioButton5.setSelected(false);
     jRadioButton7.setSelected(false);
-    //jLabel11.setText("procesando..");
-   
-  
-
-     timeStart=System.nanoTime(); Programa.cargacorte(Integer.parseInt(jTextField2.getText()));
-   //marcarlahora();
+    
+    timeStart=System.nanoTime(); 
+    Programa.cargacorte(Integer.parseInt(jTextField2.getText()));
+    
     Programa.main();
     Programa.cargarpiezasamatar(whiteHorses);
     int g= whiteHorses.size();  
@@ -1373,26 +1376,14 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
     jLabel17.setText("el proceso ha finalizado exitosamente");
     result=p;
     result.remove(0);
-  // jLabel11.setText("se ha encontrado una solucion!");
-
-
-   //result.remove(0);
-   timeStart=(System.nanoTime()-timeStart)/(1000000);
+    
+    timeStart=(System.nanoTime()-timeStart)/(1000000);
   
 
    jLabel2.setText("Tiempo       " +String.valueOf(timeStart)+" milisegundos");// setLastTime();
    jLabel4.setText("Solucion en  "+String.valueOf(result.size())+" movimientos" );
    float h= (float)g / (float)result.size();
    jLabel7.setText( "Piezas a matar " + String.valueOf(g) +  "  eficiencia = "+ h );
-
-
-
-
-   //result=Programa.amplitud(posBlack);
-  
-
-   // for (int eroor=0; eroor<p.size();eroor++){
-   //    System.out.println (p.get(eroor));}// TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton6MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked

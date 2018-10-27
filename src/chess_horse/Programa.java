@@ -247,7 +247,7 @@ public class Programa {
         int posicioninicial=niv;
         ArrayList <Integer> resultadofinal=new ArrayList();
         resultadofinal.add(2);  //por poner noma!, es para que no me repita las piezas que mata en la secuencia resultado final
-        ArrayList <Integer> aux=new ArrayList();
+        ArrayList<Integer> aux= new ArrayList();
         while (!(piezasamatar.isEmpty())){
             resultadofinal.remove(resultadofinal.size()-1);
             nivel.add(posicioninicial);  //posicion del caballo negro
