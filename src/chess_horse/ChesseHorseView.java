@@ -113,19 +113,6 @@ public class ChesseHorseView extends FrameView {
     mainPanel.setComponentZOrder(Tablero,8);
      mainPanel.setComponentZOrder(jLabel11, 0);
      mainPanel.setComponentZOrder(jLabel19, 0);
-     
-   /*  Timer timerr = new Timer (20, new ActionListener ()
-{
-    public void actionPerformed(ActionEvent eroor)
-    {
-     if (jRadioButton6.isSelected()){
-       if (jProgressBar1.getValue()==jProgressBar1.getMaximum()) jProgressBar1.setValue(0);else
-       jProgressBar1.setValue(jProgressBar1.getValue()+30);}
-    }
-});
-
-timerr.start();
-    }*/
     }
     @Action
     public void showAboutBox() {
@@ -525,12 +512,12 @@ timerr.start();
             }
         });
         jRadioButton6.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jRadioButton6AncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jPanel3.add(jRadioButton6);
@@ -1351,14 +1338,8 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
 
    jLabel2.setText("Tiempo       " +String.valueOf(timeStart)+" milisegundos");// setLastTime();
    jLabel4.setText("Solucion en  "+String.valueOf(result.size())+" movimientos" );
-  float h= (float)g / (float)result.size();
+   float h= (float)g / (float)result.size();
    jLabel7.setText( "Piezas a matar " + String.valueOf(g) +  "  eficiencia = "+ h );
-
-
-   //result=Programa.amplitud(posBlack);
-  
-  // for (int eroor=0; eroor<p.size();eroor++){
-   //    System.out.println (p.get(eroor));}
     }//GEN-LAST:event_jRadioButton5MouseClicked
 
 
@@ -1368,8 +1349,6 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
 
 
     private void jRadioButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButton6MouseClicked
-
-       
    
     jLabel17.setVisible(true);
     jPanel3.setComponentZOrder(jLabel17, 0);

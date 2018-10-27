@@ -7,31 +7,45 @@ public class Programa {
      * @param args the command line arguments
      */
     static ArrayList <Integer> nivel= new ArrayList ();
-    private static ArrayList <Integer> resultado=new  ArrayList();
+    private static ArrayList <Integer> result = new  ArrayList();
     private static ArrayList <Integer> piezasamatar = new  ArrayList();
-    private static ArrayList <ArrayList <Integer>> abiertos=new ArrayList();  //ver pero creo q esta bien
+    private static ArrayList <ArrayList <Integer>> abiertos = new ArrayList();  //ver pero creo q esta bien
     private static ArrayList <Integer> resultadoff=new ArrayList();
     private static int anterior=234;
-    
     private static int control=0;   //variable global
     private static int corte=0;
+    static int total;
     
     public static void  resetear() {
-        resultado.clear();
+        result.clear();
         piezasamatar.clear();
         nivel.clear(); abiertos.clear();resultadoff.clear(); anterior=234; total=0; corte=0;
         control=0;
     }
     
-    public static boolean killAll(int p) {
-        boolean t=true;
-        for (int y=0;y<piezaspormatar.length;y++){  //cuando mata hay q poner un high value
-            if (piezaspormatar[y]<64)
-                t=false;
-            if(piezaspormatar[y]==p) piezaspormatar[y]=999;
+    public static boolean checkAllDead(int p) {
+        boolean isAllKilled = true;
+        for (int i=0; i<piezaspormatar.length; i++){  //cuando mata hay q poner un high value
+            if (piezaspormatar[i] < 64) {
+                isAllKilled = false;
+            }
+            if(piezaspormatar[i]==p) {
+                piezaspormatar[i]=999;
+            }
             
         }
-        return (t);
+        return (isAllKilled);
+    }
+    
+    public static boolean matar1pieza(int p){
+        boolean isKilled=false;
+        for (int y=0; y<piezaspormatar.length; y++){
+            if (piezaspormatar[y] == p ){
+                piezaspormatar[y] = 999; //le mando un high value ak si mate una pieza, ya que 0 tambien es una posicion!
+                isKilled=true;
+            }
+        }
+        return (isKilled);
     }
     
     public static void  cargarpiezasamatar(ArrayList p) {
@@ -45,23 +59,6 @@ public class Programa {
     }
     
 //  *********************************************   A*  *************************************
-    public static int heuristica (int h, ArrayList <Integer> pormatar) {
-        // int []a=posiciones[h-(h/8)*8][h/8].posibilidades();
-        int area,x,y=0;
-        //for (int yy=0;yy<a.length;yy++)
-        ArrayList <Integer> ww= new ArrayList ();
-        // if (a[yy]<65){
-        for (int p=0; p<pormatar.size();p++){
-            x=Math.abs((pormatar.get(p)-((pormatar.get(p))/8)*8)-(h-(h/8)*8));  //obtengo la diferencia entre las coro
-            y= Math.abs(((pormatar.get(p))/8)-(h/8));
-            area=Programa.asignarvalor(x+1,y+1,pormatar);
-            //if (pormatar.contains(h)) {area++;}    //esta es la ultima parte de la heuristica
-            ww.add(area);
-        }
-        Collections.sort(ww);
-        int p=ww.get(0);   //elegimos el valor mas pequeño de heuristica para ESA posicion posible,que me la pasan como parametro
-        return (p);
-    }
     
     public static ArrayList <Integer> obtenermenorf(){    //devuelve nodo donde esta el menor valor de la funcion euristica y le agrega como ultimo elemento la posicion de ese nodo en el arraylist abiertos
         if (abiertos.size()>1)
@@ -104,111 +101,54 @@ public class Programa {
         return(f);
     }
 
-    static void generarnodoseinsertar (ArrayList <Integer> t){
-//Programa.deleteDuplicated();
-int s= t.get(t.size()-1);   //posicion del nodo t en abiertos
-int g=t.get(t.size()-2);  //ultima posicion de la secuencia de movimientos del nodo t
+    public static void generarnodoseinsertar (ArrayList <Integer> t){
+        //Programa.deleteDuplicated();
+        int s= t.get(t.size()-1);   //posicion del nodo t en abiertos
+        int g=t.get(t.size()-2);  //ultima posicion de la secuencia de movimientos del nodo t
+        int c[]=new int[8];
+        c=(posiciones[(g/8)][(g-(8*(g/8)))]).posibilidades();
+        
+        ArrayList <Integer> lasqquedanpormatar=new ArrayList();
+        ArrayList <Integer> tt=new ArrayList();
+        for (int j=2;j<t.size()-2;j++){
+            tt.add(t.get(j));
+        }  //en tt esta la cadena de movimientos actual
 
-
-int c[]=new int[8];
-c=(posiciones[(g/8)][(g-(8*(g/8)))]).posibilidades();
-//veeerrr   g-(g/8)*8   g/8
-
-/*ArrayList <Integer> o=new ArrayList();
-for (int y=2;y<t.size()-1;y++){              //ak yo copio en "o" la secuencia de movimientos hasta la posicion actual
-o.add(t.get(y));
-}
-
-
-ArrayList <Integer> p= new ArrayList ();
-for (int y=0;y<c.length;y++){
-if (!o.contains(c[y])) p.add(c[y]);
-}
-//p (arraylist) ahora si tiene las posiciones siguientes validas como para no hacer ciclos, ahora hay q pasar a un array todo
-int []pp=new int[p.size()];
-for (int h=0;h<pp.length;h++){
-pp[h]=p.get(h);
-}
-
-*/
-ArrayList <Integer> lasqquedanpormatar=new ArrayList();
-ArrayList <Integer> tt=new ArrayList();
-for (int j=2;j<t.size()-2;j++){
-    tt.add(t.get(j));
-    
-}  //en tt esta la cadena de movimientos actual
-for (int kk=0; kk<piezasamatar.size();kk++){
-    if (!tt.contains(piezasamatar.get(kk))) lasqquedanpormatar.add(piezasamatar.get(kk));
-    
-}
-
-
-//esto es cualquier cosa!!
-/*for (int w=2;w<t.size()-1;w++){
-if (!piezasamatar.contains(t.get(w)) & !lasqquedanpormatar.contains(t.get(w)))
-lasqquedanpormatar.add(t.get(w));
-
-}
-*/
-
-for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
-    
-    
-    if (c[j]<65){
-        ArrayList <Integer> h=new ArrayList();
-        int v;
-        for (int pppp=0; pppp<t.size(); pppp++){
-            v=t.get(pppp);
-            h.add(v);
+        for (int kk=0; kk<piezasamatar.size();kk++){
+            if (!tt.contains(piezasamatar.get(kk))) lasqquedanpormatar.add(piezasamatar.get(kk));
         }
         
-        
-        h.remove(h.size()-1);  //borramos el ultimo elemento ya que era el de la posicion en abiertos
-        //if (h.size()>1 & h.contains(c[j]) & c[j]==h.get(h.size()-2)){
-        h.add(c[j]);
-        int k=h.get(0);
-        k++;
-        h.set(0,k);
-        h.set(1,Programa.heuristica2(c[j],lasqquedanpormatar));
-        //  h.set(1,Programa.heuristica(c[j],lasqquedanpormatar));
-        
-        
-        
-        
-        
-        
-        abiertos.add(s,h);
-        for(int gg=0;gg<abiertos.get(s).size();gg++) System.out.println(abiertos.get(s).get(gg)+"aaaa");
-        if(j==0) abiertos.remove(s+1);
-        s++;
-        
+        for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
+            if (c[j]<65){
+                ArrayList <Integer> h=new ArrayList();
+                int v;
+                for (int pppp=0; pppp<t.size(); pppp++){
+                    v=t.get(pppp);
+                    h.add(v);
+                }
+                h.remove(h.size()-1);  //borramos el ultimo elemento ya que era el de la posicion en abiertos
+                h.add(c[j]);
+                int k=h.get(0);
+                k++;
+                h.set(0,k);
+                h.set(1,Programa.heuristica(lasqquedanpormatar));
+                abiertos.add(s,h);
+                for(int gg=0;gg<abiertos.get(s).size();gg++) System.out.println(abiertos.get(s).get(gg)+"aaaa");
+                if(j==0) abiertos.remove(s+1);
+                s++;
+            }
+        }
     }
     
-    //  }
-    
-}
-
-    }
-    static int total;
-    
-    
-    public static int heuristica2 (int p,ArrayList <Integer> lasqquedanpormatar){  //recibo la posicion siguiente
-        // if (lasqquedanpormatar.contains(p))
-        //  if (lasqquedanpormatar.contains(p)){  return (1000-(((total-lasqquedanpormatar.size()))*12));}else
+    public static int heuristica(ArrayList<Integer> lasqquedanpormatar) {  
         return (1000-(total-(lasqquedanpormatar.size()))*6);
-        //  return (1000-(((total-lasqquedanpormatar.size()))*10));
-        //else
-        // return (10000-(total-(lasqquedanpormatar.size())));
     }
-    
-    
-    
     
     public static ArrayList <Integer> aestrella(int posnegroo){
         total=piezasamatar.size();
         ArrayList <Integer> j= new ArrayList();
         j.add(0);
-        j.add(Programa.heuristica2(posnegroo,piezasamatar));
+        j.add(Programa.heuristica(piezasamatar));
         j.add(posnegroo);
         
         boolean v=true;
@@ -264,132 +204,6 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
         
     }
     
-    public static int asignarvalor(int x, int y,ArrayList <Integer> lasqquedanpormatar){
-        int valor=0;
-        ArrayList <Integer> areaDos = new ArrayList();
-        areaDos.add(3);
-        areaDos.add(4);
-        areaDos.add(5);
-        areaDos.add(8);
-        areaDos.add(15);
-        areaDos.add(16);
-        
-        ArrayList <Integer> areaTres = new ArrayList(); 
-        areaTres.add(2);  
-        areaTres.add(4);      
-        areaTres.add(10);    
-        areaTres.add(12);  
-        areaTres.add(6); 
-        areaTres.add(18);   
-        areaTres.add(30);   
-        areaTres.add(14);   
-        areaTres.add(28);   
-        areaTres.add(20);
-        
-        ArrayList <Integer> areaCuatro= new ArrayList();  
-        areaCuatro.add(9); 
-        areaCuatro.add(12);   
-        areaCuatro.add(7);
-        areaCuatro.add(27); 
-        areaCuatro.add(45);
-        areaCuatro.add(21);   
-        areaCuatro.add(35);   
-        areaCuatro.add(49);
-        areaCuatro.add(16);
-        areaCuatro.add(32);
-        areaCuatro.add(48);
-        areaCuatro.add(24);
-        
-        ArrayList <Integer> areaCinco= new ArrayList();
-        areaCinco.add(8); 
-        areaCinco.add(24);
-        areaCinco.add(40); 
-        areaCinco.add(42); 
-        areaCinco.add(56); 
-        areaCinco.add(36); 
-        areaCinco.add(54);
-        areaCinco.add(72);
-        
-        
-        //recibe como parametro el valor de un area y devuelve el valor de la euristica + la suma con la expresion...
-        valor=6;
-        if ((x*y) == 4) {
-            if (x == y) {
-                valor = 2;
-            } else {
-                valor = 3;
-            }
-        }
-        
-        if ((x*y)==8) {
-            if ((x==1) || (y==1)) {
-                valor=5;
-            } else {
-                valor=2;
-            } 
-        }
-        
-        if (x*y==12){
-            if ((x==3) || (y==3)) {
-                valor=3;
-            } else {
-                valor=4;
-            }
-        }
-        
-        if (x*y==16){
-            if (x==y) {
-                valor=2;
-            } else {
-                if ((x==8)||(y==8)) {
-                    valor=4;
-                }
-            }
-        }
-        
-        if (x*y==24) {
-            if ((x==6)||(y==6)) {
-                valor=4;
-            } else {
-                valor=5;
-            }
-        }
-        
-        if (x*y==1) {
-            valor=0;
-        }
-        
-        if (x*y==6) {
-            if (x==1 || y==1 ) {
-                valor= 3;
-            } else {
-                valor=1;
-            }
-        }
-        
-        if (areaDos.contains(x*y)) {
-            valor=2;
-        }
-        
-        if (areaTres.contains (x*y)) {
-            valor=3;
-        }
-        
-        if (areaCuatro.contains (x*y)) {
-            valor=4;
-        }
-        
-        if (areaCinco.contains(x*y)) {
-            valor=5;
-        }
-        
-        return (valor+((lasqquedanpormatar.size()))*6);
-            /*if (valor==0){
-            return (valor+((lasqquedanpormatar.size()))*6);}  //MODIFICARRR ESTO SI OSI ISSISSS
-            else return (valor+(lasqquedanpormatar.size())*6);*/
-    }
-    
-    
 //*******************************************************************   A*  **************************+
     
     public static boolean mataralguno(int f[]) {
@@ -418,7 +232,7 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
     if (p){ //solo p ak
         ArrayList <Integer> j=new ArrayList  ();
         for (int h=0;h<f.length;h++){
-            resultado.add(f[h]);
+            result.add(f[h]);
         }
         piezasamatar.clear();
         return (true);
@@ -428,17 +242,7 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
 
     }
     
-    public static boolean evitarciclos(int k[], int h) {   //con esto evitamos crear un nodo donde haye ciclos, osea donde haye dos nodos repetidos
-        boolean s=false;
-        for (int u=0;u < k.length;u++){
-            if(k[u]==h)
-                s=true;
-        }
-        return(s);
-        
-    }
-    
-    public static ArrayList <Integer> amplitud (int niv){
+    public static ArrayList<Integer> amplitud(int niv){
         
         int posicioninicial=niv;
         ArrayList <Integer> resultadofinal=new ArrayList();
@@ -458,8 +262,8 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
         return (resultadofinal);
     }
     
-    public static ArrayList <Integer> buscaramplitud (int niv) {
-        if (resultado.isEmpty()){
+    public static ArrayList<Integer> buscaramplitud(int niv) {
+        if (result.isEmpty()){
             int arraydenivel[]=new int[nivel.size()];
             for (int r=0;r<nivel.size();r++){          //cargo el arreglo de nivel
                 arraydenivel[r]=nivel.get(r);
@@ -471,7 +275,7 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
                 System.arraycopy(arraydenivel, y*niv, c,0, niv);
                 boolean t=Programa.mataralguno(c);
                 if (t==true)
-                    return(resultado);   
+                    return(result);   
             }
 
         //hasta aca nos fijamos si matamos algo en el nivel correspondiente, ahora debemos generar el siguiente nivel
@@ -485,7 +289,7 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
     
             pos=(posiciones[g][y]).posibilidades();   //simplemente busco las posiciones posibles en formato array del ultimo elemento del array p
             for (int k=0;k<pos.length;k++){
-                if (pos[k]<65 & true){   // donde dice true, puedo  evitar ciclos poniendo  !(Main.evitarciclos(p,pos[k])), esto va a ser q se evite pasar dos veces por el mismo casillero aunque para casos donde se tengan q matar muchas piezas, esto nos complica
+                if (pos[k]<65 & true){   // donde dice true, puedo  evitar ciclos poniendo  !(Main.evitarCiclos(p,pos[k])), esto va a ser q se evite pasar dos veces por el mismo casillero aunque para casos donde se tengan q matar muchas piezas, esto nos complica
                     for (int i=0;i<p.length;i++){
                         h.add(p[i]);
                     }
@@ -499,15 +303,15 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
         int b=niv;
         Programa.buscaramplitud(b +1);
         }
-        return(resultado);
+        return(result);
     }
     
-    //este ya fue ya
-    public static int [] buscar (int posicion, int nivel,int posicionanterior) {
+    public static int [] buscar(int posicion, int nivel, int posicionanterior) {
         int p=nivel +1;
-        if (Programa.matar1pieza(posicion)==true){
-            p=0;}
-        if (Programa.killAll(posicion)==true){
+        if (Programa.matar1pieza(posicion)){
+            p=0;
+        }
+        if (Programa.checkAllDead(posicion)){
             int c[]=new int[1];
             c[0]=posicion;
             return (c);}
@@ -544,7 +348,7 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
     }
     
     
-    static ArrayList <Integer> profundidad (int pos,int nivel,int anterior){
+    static ArrayList <Integer> profundidad(int pos,int nivel,int anterior){
         if(nivel==corte+1)
         {
             ArrayList <Integer> p= new ArrayList <Integer>();
@@ -552,7 +356,7 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
             return(p);
         }
         int antes=piezasamatar.size();
-        if (Programa.matartodoss(pos)){
+        if (Programa.killAll(pos)){
             ArrayList <Integer> p= new ArrayList <Integer>();
             p.add(pos);
             return(p);
@@ -581,34 +385,18 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
         return(p);
     }
     
-    static boolean matartodoss(int c){
-        if (piezasamatar.contains(c)){
+    public static boolean killAll(int positionPieceToDelete){
+        if (piezasamatar.contains(positionPieceToDelete)){
             for (int y=0;y<piezasamatar.size();y++){
-                if (piezasamatar.get(y)==c) piezasamatar.remove(y);    //eliminamos la pieza que matamos
+                if (piezasamatar.get(y)==positionPieceToDelete) piezasamatar.remove(y);    //eliminamos la pieza que matamos
             }
             
         }
         return(piezasamatar.isEmpty());
     }
     
-    
-    
-    public static boolean matar1pieza(int p){
-        boolean t=false;
-        for (int y=0;y<piezaspormatar.length;y++){
-            if (piezaspormatar[y]==p){
-                piezaspormatar[y]=999; //le mando un high value ak si mate una pieza, ya que 0 tambien es una posicion!
-                t=true;}
-        }
-        return (t);
-        
-        
-        
-    }
-    
-    
     public static void main() {
-        //ahi cree el arreglo bidimensional que va a contener todos los posibles movimientos del caballo de acuerdo al lugar donde este
+        //arreglo bidimensional que va a contener todos los posibles movimientos del caballo de acuerdo al lugar donde este
         posicionesposiblesxpiezas t00=new posicionesposiblesxpiezas(17,10,9999,9999,9999,9999,999,999);
         posiciones[0][0]=t00;      //aca empiezo a cargar una por una las posiciones posibles de acuerdo a la ubicaciones del caballo..son 64 cargas!!
         posicionesposiblesxpiezas t01=new posicionesposiblesxpiezas(16,18,11,999,999,9999,9999,999);
@@ -754,46 +542,7 @@ for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
         posiciones [7][7]=t63;
         //cargada fila 8
         
-        /*
-        int []w={0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,32,21,22,24,25,26,27,28,30,7,34,56,34,45,46,47,48,49,50}; //piezas que hay q matar
-        int ppm=3;      //ppm es la posicion del caballo negro que va a tener que matar a piezaspormatar[0]
-        int resultado[];
-        ArrayList caminofinal=new ArrayList();
-        for (int u=0; u<w.length;u++){
-        
-        //esta es la posicion del caballo blanco que tenemos que matar, lo cargamos
-        
-        if(caminofinal.contains(w[u])==false)//significa que sin querer ya mate esta pieza anteriormente
-        {
-        piezaspormatar[0]=w[u]; //aca cargo las piezas por matar
-        resultado= Main.buscar(ppm,0,999);
-        resultado[resultado.length-1]=w[u];  //porque no devuelve la posicion objetivo como ulltima posicion (??)
-        for (int j=0;j<resultado.length;j++){
-        caminofinal.add(resultado[j]);
-        }
-        
-        ppm=w[u];     //arrancar la proxima busqueda desde la posicion que mato
-        }
-        }
-        
-        Object []q =caminofinal.toArray();
-        Object j=1234;
-        for (int y=0;y<q.length;y++){
-        if(j!=q[y])
-        System.out.println(q[y]);   //hay un problema ver hoja de apunte
-        j=q[y];}
-        System.out.println("hhhhhhhhhhhhhhhhhhhhhhh");
-        
-        /*
-        
-        for (int v=0;v<resultado.size();v++){
-        System.out.println(resultado.get(v));
-        }*/
-    }   //el tema es q cuando mata 1 pieza termina todo, y tendria q seguir hasta matar todas!
-    //int []p=posiciones[numero/8][numero-(8*(numero/8))].posibilidades();
-    //for (int y=0; y<8;y++){
-    //  if (p[y]<65){
-    //System.out.println(p[y]);
+    } 
 }
 
 
