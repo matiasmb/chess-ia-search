@@ -13,20 +13,20 @@ import java.util.ArrayList;
  */
 public class NodoInfo {
     
-    private ArrayList<Integer> blackHorsePosition = new ArrayList<Integer>();
+    private ArrayList<Integer> blackHorseRecorrido = new ArrayList<Integer>();
     private int heuristica;
     private int weight;
 
-    public ArrayList<Integer> getBlackHorsePosition() {
-        return blackHorsePosition;
+    public ArrayList<Integer> getBlackHorseRecorrido() {
+        return blackHorseRecorrido;
     }
 
-    public void setBlackHorsePosition(int blackHorsePosition) {
-        this.blackHorsePosition.add(blackHorsePosition);
+    public void addBlackHorsePosition(int blackHorsePosition) {
+        this.blackHorseRecorrido.add(blackHorsePosition);
     }
 
-    public void setBlackHorsePosition(ArrayList<Integer> blackHorsePositions) {
-        this.blackHorsePosition = blackHorsePositions;
+    public void setBlackHorseRecorrido(ArrayList<Integer> blackHorseRecorrido) {
+        this.blackHorseRecorrido = blackHorseRecorrido;
     }
     
     public int getHeuristica() {

@@ -6,8 +6,6 @@ public class Programa {
     /* ak tengo que cargar las posiciones de los caballos que tengo que matar*/static int[]piezaspormatar=new int[1];   /**
      * @param args the command line arguments
      */
-    static ArrayList <Integer> nivel= new ArrayList ();
-    public static ArrayList <Integer> result = new  ArrayList();
     public static ArrayList <Integer> piezasamatar = new  ArrayList();
     public static ArrayList <NodoInfo> abiertos = new ArrayList();  //ver pero creo q esta bien
     public static ArrayList <Integer> resultadoff=new ArrayList();
@@ -17,9 +15,12 @@ public class Programa {
     public static int totalWhiteHorses;
     
     public static void  resetear() {
-        result.clear();
         piezasamatar.clear();
-        nivel.clear(); abiertos.clear();resultadoff.clear(); anterior=234; totalWhiteHorses=0; corte=0;
+        abiertos.clear();
+        resultadoff.clear();
+        anterior=234;
+        totalWhiteHorses=0;
+        corte=0;
         control=0;
     }
     
@@ -64,9 +65,9 @@ public class Programa {
         if (abiertos.size() > 1) {
             Programa.deleteDuplicated();
         }
-        
+
         int costoTotalMin = 0;
-        int positionNextNode = 0; 
+        int positionNextNode = 0;
         
         for (int j=0; j<abiertos.size() ; j++){
             int costoTotal = abiertos.get(j).getWeight() + abiertos.get(j).getHeuristica();
@@ -77,25 +78,25 @@ public class Programa {
                 costoTotalMin = costoTotal;
             }
         }
-        
+
         NodoInfo bestNextNodo = abiertos.get(positionNextNode);
-        bestNextNodo.setBlackHorsePosition(positionNextNode);
+        bestNextNodo.addBlackHorsePosition(positionNextNode);
         return bestNextNodo;
     }
-    
+
     public static boolean killAllAStar(NodoInfo nextNodo){
-        
+
         int countDeadPieces = 0;
-        
+
         //ahora tengo q recorrer las cada una de las piezas a matar y preguntar si se encuentra en h, si todas estan es porque en la secuencia de movimientos mate todas!
         for (int j=0;j<piezasamatar.size();j++){
-            if(nextNodo.getBlackHorsePosition().contains(piezasamatar.get(j))) {
+            if(nextNodo.getBlackHorseRecorrido().contains(piezasamatar.get(j))) {
                 countDeadPieces ++;
             }
         }
         
         if (countDeadPieces == totalWhiteHorses){
-            resultadoff = nextNodo.getBlackHorsePosition();
+            resultadoff = nextNodo.getBlackHorseRecorrido();
         }
         
         return countDeadPieces == totalWhiteHorses;
@@ -103,30 +104,30 @@ public class Programa {
 
     public static void generateNodoAndInsert (NodoInfo nextNodo) {
         
-        int positionInOpenList = nextNodo.getBlackHorsePosition().get(nextNodo.getBlackHorsePosition().size() - 1);   //posicion del nodo en abiertos
-        int lastPositionInNodo = nextNodo.getBlackHorsePosition().get(nextNodo.getBlackHorsePosition().size() - 2);  //ultima posicion de la secuencia de movimientos del nodo
-        
+        int positionInOpenList = nextNodo.getBlackHorseRecorrido().get(nextNodo.getBlackHorseRecorrido().size() - 1);   //posicion del nodo en abiertos
+        int lastPositionInNodo = nextNodo.getBlackHorseRecorrido().get(nextNodo.getBlackHorseRecorrido().size() - 2);  //ultima posicion de la secuencia de movimientos del nodo
+
         int movimientosPosibles[] = new int[8];
         movimientosPosibles=(posiciones[(lastPositionInNodo/8)][(lastPositionInNodo-(8*(lastPositionInNodo/8)))]).posibilidades();
-        
+
         ArrayList <Integer> whiteHorsesAlive=new ArrayList();
 
         for (int iterator=0; iterator<piezasamatar.size(); iterator++){
-            if (!nextNodo.getBlackHorsePosition().contains(piezasamatar.get(iterator))) 
+            if (!nextNodo.getBlackHorseRecorrido().contains(piezasamatar.get(iterator)))
                 whiteHorsesAlive.add(piezasamatar.get(iterator));
         }
         
         for (int j=0; j<movimientosPosibles.length; j++){   //itero por todas las posiciones posibles
             if (movimientosPosibles[j]<65){
                 NodoInfo nextNodoToInsert = new NodoInfo();
-                nextNodoToInsert.setBlackHorsePosition(lastPositionInNodo);
-                nextNodoToInsert.getBlackHorsePosition().remove(nextNodoToInsert.getBlackHorsePosition().size()-1);  //borramos el ultimo elemento ya que era el de la posicion en abiertos
-                nextNodoToInsert.getBlackHorsePosition().add(movimientosPosibles[j]);
+                nextNodoToInsert.addBlackHorsePosition(lastPositionInNodo);
+                nextNodoToInsert.getBlackHorseRecorrido().remove(nextNodoToInsert.getBlackHorseRecorrido().size()-1);  //borramos el ultimo elemento ya que era el de la posicion en abiertos
+                nextNodoToInsert.getBlackHorseRecorrido().add(movimientosPosibles[j]);
                 nextNodoToInsert.setWeight(nextNodoToInsert.getWeight()+1);
                 nextNodoToInsert.setHeuristica(Programa.heuristica(whiteHorsesAlive));
                 abiertos.add(positionInOpenList,nextNodoToInsert);
-                for(int iterator=0; iterator<abiertos.get(positionInOpenList).getBlackHorsePosition().size();iterator++) {
-                    System.out.println(abiertos.get(positionInOpenList).getBlackHorsePosition().get(iterator)+" stepInNode: "+iterator);
+                for(int iterator=0; iterator<abiertos.get(positionInOpenList).getBlackHorseRecorrido().size();iterator++) {
+                    System.out.println(abiertos.get(positionInOpenList).getBlackHorseRecorrido().get(iterator)+" stepInNode: "+iterator);
                 }
                 if(j==0) {
                     abiertos.remove(positionInOpenList+1);
@@ -136,7 +137,7 @@ public class Programa {
         }
     }
     
-    public static int heuristica(ArrayList<Integer> whiteHorsesAlive) {  
+    public static int heuristica(ArrayList<Integer> whiteHorsesAlive) {
         return (1000-(totalWhiteHorses-(whiteHorsesAlive.size()))*6);
     }
     
@@ -147,10 +148,10 @@ public class Programa {
         
         nodoInfo.setWeight(0);
         nodoInfo.setHeuristica(Programa.heuristica(piezasamatar));
-        nodoInfo.setBlackHorsePosition(positionBlackHorses);
-        
+        nodoInfo.addBlackHorsePosition(positionBlackHorses);
+
         abiertos.add(nodoInfo);
-        
+
         boolean isAllDead = true;
         while(isAllDead){
             NodoInfo nextNodo = Programa.getNodoByMinHeuristica();   //la ultima posicion de u es la posicion dentro de abiertos donde esta el menor
@@ -161,7 +162,7 @@ public class Programa {
                 isAllDead=false;
                 /*
                 for (int y=0;y<abiertos.size();y++) {
-                    for (int c=0;c<abiertos.get(y).size();c++){ 
+                    for (int c=0;c<abiertos.get(y).size();c++){
                         System.out.println(abiertos.get(y).get(c));
                     }
                 }
@@ -172,19 +173,19 @@ public class Programa {
         for (int l=0;l<resultadoff.size();l++) {
             System.out.println(resultadoff.get(l));
         }
-        
+
         return (resultadoff);
     }
     
     public static void deleteDuplicated()
     {
-        ArrayList <Integer> posicionesaborrar=new ArrayList() ; 
+        ArrayList <Integer> posicionesaborrar=new ArrayList() ;
         int ultimaPosicionNodoActual;
         
         for (int iterator=0; iterator < abiertos.size();iterator++){
-            ultimaPosicionNodoActual = abiertos.get(iterator).getBlackHorsePosition().get(abiertos.get(iterator).getBlackHorsePosition().size()-1); //ultimo elemento de la secuencia de movimientos del nodo u
+            ultimaPosicionNodoActual = abiertos.get(iterator).getBlackHorseRecorrido().get(abiertos.get(iterator).getBlackHorseRecorrido().size()-1); //ultimo elemento de la secuencia de movimientos del nodo u
             for (int secondIterator=0; secondIterator < abiertos.size(); secondIterator++){
-                if ((ultimaPosicionNodoActual == abiertos.get(secondIterator).getBlackHorsePosition().get(abiertos.get(secondIterator).getBlackHorsePosition().size()-1))
+                if ((ultimaPosicionNodoActual == abiertos.get(secondIterator).getBlackHorseRecorrido().get(abiertos.get(secondIterator).getBlackHorseRecorrido().size()-1))
                         &&((abiertos.get(secondIterator).getWeight()+abiertos.get(secondIterator).getHeuristica())
                         >(abiertos.get(iterator).getWeight()+abiertos.get(iterator).getHeuristica()))) {
                     if (!posicionesaborrar.contains(secondIterator)) {
@@ -196,7 +197,7 @@ public class Programa {
         if (posicionesaborrar.isEmpty()) {
             System.out.println("no hay nada para borrar");
         }
-        int h; 
+        int h;
         Collections.sort(posicionesaborrar);
         while (!posicionesaborrar.isEmpty()){//ak va el codigo para eliminar posiciones repetidas de posiciones a borrar!!
             System.out.println("hay duplicados para borrar");
@@ -213,37 +214,7 @@ public class Programa {
         
     }
     
-//*******************************************************************   A*  **************************+
-    
-    public static boolean mataralguno(int f[]) {
-
-    boolean p=true;
-    
-    for (int pp=0;pp< piezasamatar.size();pp++){
-        boolean z=true;
-        ArrayList <Integer> posicionesaborrar= new ArrayList();
-        for (int u=0;u<f.length;u++){
-            if(f[u]== piezasamatar.get(pp) & !posicionesaborrar.contains(pp) ) {
-                z=false; posicionesaborrar.add(pp);
-            } //saco esa pieza de las piezas a matar}}
-        }
-        if (z) {
-            p=false;
-        }
-    //si p=false no mate todas todavia
-    }
-    if (p){ //solo p ak
-        ArrayList <Integer> j=new ArrayList  ();
-        for (int h=0;h<f.length;h++){
-            result.add(f[h]);
-        }
-        piezasamatar.clear();
-        return (true);
-    }
-    //cargo la secuencia de movimientos que mata esa pieza en la variable global resultad
-    return (p);
-
-    }
+//*******************************************************************   Amplitud  **************************+
     
     public static ArrayList<Integer> amplitud(int posicionInicial){
         ArrayList<ArrayList<Integer>> recorridos = new ArrayList();
@@ -254,16 +225,13 @@ public class Programa {
                 return recorrido;
         
         recorridos.add(recorrido);
-        return Programa.buscarAmplitud(1, recorridos);
+        return Programa.buscarAmplitud(recorridos);
     }
     
-    public static ArrayList<Integer> buscarAmplitud(int niv, ArrayList<ArrayList<Integer>> recorridos) {
+    public static ArrayList<Integer> buscarAmplitud(ArrayList<ArrayList<Integer>> recorridos) {
         ArrayList<ArrayList<Integer>> nuevosRecorridos = new ArrayList();
         for (ArrayList<Integer> recorrido : recorridos) {
-            int i = recorrido.get(recorrido.size()-1)/8;
-            int j = recorrido.get(recorrido.size()-1) - recorrido.get(recorrido.size()-1)/8*8;
-            int movimientos[] = posiciones[i][j].posibilidades();
-            
+            int movimientos[] = obtenerMovimientos(recorrido);
             for (int movimiento : movimientos) {
                 if (movimiento < 65) {
                     ArrayList<Integer> nuevoRecorrido = new ArrayList();
@@ -278,128 +246,77 @@ public class Programa {
             }
         }
 
-        return Programa.buscarAmplitud(niv+1, nuevosRecorridos);
+        return Programa.buscarAmplitud(nuevosRecorridos);
     }
 
-    public static boolean isFinished(ArrayList<Integer> recorrido) {
+    static int[] obtenerMovimientos(ArrayList<Integer> recorrido) {
+        int i = recorrido.get(recorrido.size()-1)/8;
+        int j = recorrido.get(recorrido.size()-1) - recorrido.get(recorrido.size()-1)/8*8;
+        return posiciones[i][j].posibilidades();
+    }
+
+    static boolean isFinished(ArrayList<Integer> recorrido) {
         for (Integer pieza : piezasamatar) {
             if (!recorrido.contains(pieza))
                 return false;
         }
-
         return true;
     }
     
-    public static int [] buscar(int posicion, int nivel, int posicionanterior) {
-        int p=nivel +1;
-        if (Programa.matar1pieza(posicion)){
-            p=0;
-        }
-        if (Programa.checkAllDead(posicion)){
-            int c[]=new int[1];
-            c[0]=posicion;
-            return (c);}
-        
-        if(nivel>6) {          //cuando estoy dando muchas vueltas sin matar
-            int c[]=new int[1];
-            c[0]=999;
-            return (c);
-        }       
-        int pposibles[]=new int[8];
-        pposibles= (posiciones[(posicion/8)][(posicion-(8*(posicion/8)))]).posibilidades();
-        for (int i=0;i<8;i++){
-            if (pposibles[i]<65 & pposibles[i]!=posicionanterior){  //cuidado con el valor hv como posicion posible!
-                int b[]=Programa.buscar(pposibles[i],p,posicion);   
-                if (b[b.length-1]<65){   // ultimo elemento de la matriz, ver como hacer funcionar size()!!!
-                    int x[]=new int[1+b.length];
-                    x[0]=posicion;
-                    for (int h=1; h<b.length;h++){
-                        x[h]=b[h-1];   
-                    }
-                    //ultima posicion del arreglo
-                    return(x);
-                }
-            }
-        }
-        
-        int t[]=new int[1];
-        t[0]=999;
-        return(t);
-    }
+    //*******************************************************************   Profundidad  **************************+
     
-    static  void cargacorte(int u){
+    static void cargacorte(int u) {
         corte=u;
     }
     
-    
-    static ArrayList <Integer> profundidad(int pos,int nivel,int anterior){
-        if(nivel==corte+1)
-        {
-            ArrayList <Integer> p= new ArrayList <Integer>();
-            p.add(999);
-            return(p);
-        }
-        int antes=piezasamatar.size();
-        if (Programa.killAll(pos)){
-            ArrayList <Integer> p= new ArrayList <Integer>();
-            p.add(pos);
-            return(p);
-        }
-        if(antes!=piezasamatar.size())     //controlo si mate solo 1, pongo nivel a 0
-            nivel=0;
-        else
-            nivel++;
-        int []pp=new int[8];
-        pp= (posiciones[(pos/8)][(pos-(8*(pos/8)))]).posibilidades();
-        for (int i=0;i<pp.length;i++){
-            if(pp[i]<65 && pp[i]!=anterior ){
-                ArrayList <Integer> j=new ArrayList <Integer>();
-                j=Programa.profundidad(pp[i],nivel,pos);
-                if (j.get(0)<65)   //primera posicion
-                {
-                    j.add(0,pos);  //ver
-                    
-                    return (j);
-                }
-            }
-            
-        }
-        ArrayList <Integer> p=new ArrayList<Integer> ();
-        p.add(999);
-        return(p);
+    static ArrayList<Integer> profundidad(int posicionInicial) {
+        ArrayList<Integer> recorrido = new ArrayList();
+        recorrido.add(posicionInicial);
+
+        if (Programa.isFinished(recorrido))
+                return recorrido;
+
+        return Programa.buscarProfundidad(recorrido, 1);
     }
-    
-    public static boolean killAll(int positionPieceToDelete){
-        if (piezasamatar.contains(positionPieceToDelete)){
-            for (int y=0;y<piezasamatar.size();y++){
-                if (piezasamatar.get(y)==positionPieceToDelete) piezasamatar.remove(y);    //eliminamos la pieza que matamos
+
+    public static ArrayList<Integer> buscarProfundidad(ArrayList<Integer> recorrido, int nivel) {
+        if (nivel > corte)
+            return null;
+
+        int movimientos[] = obtenerMovimientos(recorrido);
+        for (int movimiento : movimientos) {
+            if (movimiento < 65) {
+                ArrayList<Integer> nuevoRecorrido = new ArrayList();
+                nuevoRecorrido.addAll(recorrido);
+                nuevoRecorrido.add(movimiento);
+
+                if (Programa.isFinished(nuevoRecorrido))
+                    return nuevoRecorrido;
+
+                ArrayList<Integer> resultado = Programa.buscarProfundidad(nuevoRecorrido, nivel+1);
+                if (resultado != null)
+                    return resultado;
             }
-            
         }
-        return(piezasamatar.isEmpty());
+
+        return null;
     }
     
     public static void main() {
         //arreglo bidimensional que va a contener todos los posibles movimientos del caballo de acuerdo al lugar donde este
         posicionesposiblesxpiezas t00=new posicionesposiblesxpiezas(17,10,9999,9999,9999,9999,999,999);
-        posiciones[0][0]=t00;      //aca empiezo a cargar una por una las posiciones posibles de acuerdo a la ubicaciones del caballo..son 64 cargas!!
+        posiciones[0][0]=t00;
         posicionesposiblesxpiezas t01=new posicionesposiblesxpiezas(16,18,11,999,999,9999,9999,999);
         posiciones [0][1]=t01;
         posicionesposiblesxpiezas t02=new posicionesposiblesxpiezas(8,17,19,12,999,999,999,9999);
-        
         posiciones [0][2]=t02;
         posicionesposiblesxpiezas t03=new posicionesposiblesxpiezas(18,20,9,13,999,999,9999,9999);
-        
-        posiciones [0][3]=t03;    // TODO code application logic here
+        posiciones [0][3]=t03;
         posicionesposiblesxpiezas t04=new posicionesposiblesxpiezas(19,21,10,14,999,9999,999,999);
-        
         posiciones [0][4]=t04;
         posicionesposiblesxpiezas t05=new posicionesposiblesxpiezas(20,22,11,15,999,999,999,999);
-        
-        
         posiciones [0][5]=t05;
         posicionesposiblesxpiezas t06=new posicionesposiblesxpiezas(21,23,12,999,999,9999,9999,999);
-        
         posiciones [0][6]=t06;
         posicionesposiblesxpiezas t07=new posicionesposiblesxpiezas(13,22,999,999,999,999,999,999);
         posiciones [0][7]=t07;
@@ -421,8 +338,6 @@ public class Programa {
         posicionesposiblesxpiezas t15=new posicionesposiblesxpiezas(5,21,30,999,999,999,999,999);
         posiciones [1][7]=t15;
         //termine de cargar la 2da fila
-        
-        
         posicionesposiblesxpiezas t16=new posicionesposiblesxpiezas(1,10,26,33,999,999,999,999);
         posiciones [2][0]=t16;
         posicionesposiblesxpiezas t17=new posicionesposiblesxpiezas(0,2,11,27,34,32,999,999);
