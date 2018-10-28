@@ -207,8 +207,7 @@ public class Programa {
 //*******************************************************************   A*  **************************+
     
     public static boolean mataralguno(int f[]) {
-    //en este metodo puedo realizar modificaciones y hacer q mate todo de una!, pero esto puedo llenar la memoria!
-    //boolean p=false;
+    
     boolean p=true;
     
     for (int pp=0;pp< piezasamatar.size();pp++){
@@ -224,11 +223,6 @@ public class Programa {
         }
     //si p=false no mate todas todavia
     }
-    //ahora tenemos que eliminar las posciones que estan en posicionesaremover de piezasamatar si es q mate todas!!
-    /*for (int h=0;h<f.length;h++){
-    if (piezasamatar.contains(f[h])) {p=true;for (int u=0;u<piezasamatar.size();u++){if (piezasamatar.get(u)==f[h])piezasamatar.remove(u);}}  //supuestamente ak saque la pieza que mato
-    }
-    */
     if (p){ //solo p ak
         ArrayList <Integer> j=new ArrayList  ();
         for (int h=0;h<f.length;h++){
@@ -242,40 +236,24 @@ public class Programa {
 
     }
     
-    public static ArrayList<Integer> amplitud(int niv){
-        
-        int posicioninicial=niv;
-        ArrayList <Integer> resultadofinal=new ArrayList();
-        resultadofinal.add(2);  //por poner noma!, es para que no me repita las piezas que mata en la secuencia resultado final
-        ArrayList <Integer> aux=new ArrayList();
-        while (!(piezasamatar.isEmpty())){
-            resultadofinal.remove(resultadofinal.size()-1);
-            nivel.add(posicioninicial);  //posicion del caballo negro
-            
-            aux=Programa.buscaramplitud(1);  //el 1 no se toca!!
-            nivel.clear();
-            for (int h=0;h<aux.size();h++){
-                resultadofinal.add(aux.get(h));}
-            posicioninicial=resultadofinal.get((resultadofinal.size())-1);
-            aux.clear();
-        }
-        return (resultadofinal);
+    public static ArrayList<Integer> amplitud(int posicionInicial){
+        nivel.add(posicionInicial);  //posición inicial del caballo negro
+        Programa.buscarAmplitud(1);  //empezamos del primer nivel
+        return result;
     }
     
-    public static ArrayList<Integer> buscaramplitud(int niv) {
-        if (result.isEmpty()){
-            int arraydenivel[]=new int[nivel.size()];
-            for (int r=0;r<nivel.size();r++){          //cargo el arreglo de nivel
-                arraydenivel[r]=nivel.get(r);
-            }
+    public static void buscarAmplitud(int niv) {
+        int arraydenivel[]=new int[nivel.size()];
+        for (int r=0;r<nivel.size();r++){          //cargo el arreglo de nivel
+            arraydenivel[r]=nivel.get(r);
+        }
             
-            for (int y=0; y<((arraydenivel.length)/niv);y++){
-                int c[]=new int[niv];
-                System.arraycopy(arraydenivel, y*niv, c,0, niv);
-                boolean t=Programa.mataralguno(c);
-                if (t)
-                    return(result);   
-            }
+        for (int y=0; y<((arraydenivel.length)/niv);y++){
+            int c[] = new int[niv];
+            System.arraycopy(arraydenivel, y*niv, c, 0, niv);
+            if (Programa.isFinished(c))
+                return;
+        }
 
         //hasta aca nos fijamos si matamos algo en el nivel correspondiente, ahora debemos generar el siguiente nivel
         ArrayList <Integer> h= new ArrayList();
@@ -284,25 +262,43 @@ public class Programa {
             System.arraycopy(arraydenivel, j*niv, p, 0, niv); //ahora si p contiene todos los elementos de un nodo correspondiente jej
             int pos[]=new int[8];
             int g=(p[p.length-1]/8);
-            int y=((p[p.length-1])-(8*(p[p.length-1]/8)));   //calculo la posicion en la matriz del elemento ultimo, para asi poder anexar con cada uno de sus sucesores
+            int y =((p[p.length-1])-(8*(p[p.length-1]/8)));   //calculo la posicion en la matriz del elemento ultimo, para asi poder anexar con cada uno de sus sucesores
     
-            pos=(posiciones[g][y]).posibilidades();   //simplemente busco las posiciones posibles en formato array del ultimo elemento del array p
-            for (int k=0;k<pos.length;k++){
-                if (pos[k]<65 & true){   // donde dice true, puedo  evitar ciclos poniendo  !(Main.evitarCiclos(p,pos[k])), esto va a ser q se evite pasar dos veces por el mismo casillero aunque para casos donde se tengan q matar muchas piezas, esto nos complica
-                    for (int i=0;i<p.length;i++){
+            pos = posiciones[g][y].posibilidades();   //simplemente busco las posiciones posibles en formato array del ultimo elemento del array p
+            for (int k=0; k<pos.length; k++) {
+                if (pos[k]<65) {
+                    for (int i = 0; i<p.length; i++) {
                         h.add(p[i]);
                     }
                     h.add(pos[k]);
                 }
             }
         }
-        nivel.clear();
+        
         nivel=h;
-        ArrayList <Integer> w= new ArrayList ();
-        int b=niv;
-        Programa.buscaramplitud(b +1);
+        Programa.buscarAmplitud(niv+1);
+    }
+    
+    public static boolean isFinished(int rec[]) {
+        
+        ArrayList<Integer> recorrido = new ArrayList();
+        for (int casilla : rec) {
+            recorrido.add(casilla);
         }
-        return(result);
+    
+        for (Integer pieza : piezasamatar) {
+            if (!recorrido.contains(pieza))
+                return false;
+        }
+        
+        //return true;
+        
+        for (Integer casilla : recorrido) {
+            result.add(casilla);
+        }
+        
+        piezasamatar.clear();
+        return true;
     }
     
     public static int [] buscar(int posicion, int nivel, int posicionanterior) {
