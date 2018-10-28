@@ -1310,6 +1310,7 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
     Programa.cargarpiezasamatar(whiteHorses);
     int g= whiteHorses.size();
     result=Programa.profundidad(posBlack, 0, 999);
+    jLabel17.setText("el proceso ha finalizado exitosamente");
    result.remove(0);
    timeStart=(System.nanoTime()-timeStart)/(1000000);
  
@@ -1341,17 +1342,18 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
   
    result.clear();
    
-   int g= whiteHorses.size();
+   int whiteHoresesLength= whiteHorses.size();
    
    result=Programa.amplitud(posBlack);
+   jLabel17.setText("el proceso ha finalizado exitosamente");
    result.remove(0);
    timeStart=(System.nanoTime()-timeStart)/(1000000);
 
 
    jLabel2.setText("Tiempo       " +String.valueOf(timeStart)+" milisegundos");// setLastTime();
    jLabel4.setText("Solucion en  "+String.valueOf(result.size())+" movimientos" );
-   float h= (float)g / (float)result.size();
-   jLabel7.setText( "Piezas a matar " + String.valueOf(g) +  "  eficiencia = "+ h );
+   float efficiency= (float)whiteHoresesLength / (float)result.size();
+   jLabel7.setText( "Piezas a matar " + String.valueOf(whiteHoresesLength) +  "  eficiencia = "+ efficiency );
     }//GEN-LAST:event_jRadioButton5MouseClicked
 
 
