@@ -9,17 +9,17 @@ public class Programa {
     static ArrayList <Integer> nivel= new ArrayList ();
     public static ArrayList <Integer> result = new  ArrayList();
     public static ArrayList <Integer> piezasamatar = new  ArrayList();
-    public static ArrayList <ArrayList <Integer>> abiertos = new ArrayList();  //ver pero creo q esta bien
+    public static ArrayList <NodoInfo> abiertos = new ArrayList();  //ver pero creo q esta bien
     public static ArrayList <Integer> resultadoff=new ArrayList();
     public static int anterior=234;
     public static int control=0;   //variable global
     public static int corte=0;
-    public static int total;
+    public static int totalWhiteHorses;
     
     public static void  resetear() {
         result.clear();
         piezasamatar.clear();
-        nivel.clear(); abiertos.clear();resultadoff.clear(); anterior=234; total=0; corte=0;
+        nivel.clear(); abiertos.clear();resultadoff.clear(); anterior=234; totalWhiteHorses=0; corte=0;
         control=0;
     }
     
@@ -59,138 +59,147 @@ public class Programa {
     }
     
 //  *********************************************   A*  *************************************
-    
-    public static ArrayList <Integer> obtenermenorf(){    //devuelve nodo donde esta el menor valor de la funcion euristica y le agrega como ultimo elemento la posicion de ese nodo en el arraylist abiertos
-        if (abiertos.size()>1)
+    //devuelve nodo donde esta el menor valor de la funcion euristica y le agrega como ultimo elemento la posicion de ese nodo en el arraylist abiertos
+    public static NodoInfo getNodoByMinHeuristica() {
+        if (abiertos.size() > 1) {
             Programa.deleteDuplicated();
-        
-        System.out.println(abiertos.size());
-        int costototal=((abiertos.get(0)).get(0))+((abiertos.get(0)).get(1));
-        
-        int pos=0; int costototalj=0;
-        for (int j=0;j<abiertos.size();j++){
-            costototalj=abiertos.get(j).get(0) + abiertos.get(j).get(1);
-            if(costototal>costototalj)
-            {costototal=costototalj;
-            pos =j;}
         }
-        ArrayList <Integer> p=abiertos.get(pos);
-        p.add(pos);
-        return(p);
+        
+        int costoTotalMin = 0;
+        int positionNextNode = 0; 
+        
+        for (int j=0; j<abiertos.size() ; j++){
+            int costoTotal = abiertos.get(j).getWeight() + abiertos.get(j).getHeuristica();
+            if(costoTotalMin != 0 && costoTotalMin > costoTotal) {
+                costoTotalMin = costoTotal;
+                positionNextNode = j;
+            } else {
+                costoTotalMin = costoTotal;
+            }
+        }
+        
+        NodoInfo bestNextNodo = abiertos.get(positionNextNode);
+        bestNextNodo.setBlackHorsePosition(positionNextNode);
+        return bestNextNodo;
     }
     
-    public static boolean killAll(ArrayList<Integer> p){
-        boolean f=true;
-        ArrayList <Integer> h= new ArrayList();
-        for (int yy=2;yy<p.size()-1;yy++){
-            h.add(p.get(yy));  //ak lo que hago es deshacerme de las dos primeras posiciones de p, y  de la ultima, ya no hacen a las posiciones recorridas
-        }
+    public static boolean killAllAStar(NodoInfo nextNodo){
+        
+        int countDeadPieces = 0;
+        
         //ahora tengo q recorrer las cada una de las piezas a matar y preguntar si se encuentra en h, si todas estan es porque en la secuencia de movimientos mate todas!
         for (int j=0;j<piezasamatar.size();j++){
-            if(!h.contains(piezasamatar.get(j)))
-                f=false;
+            if(nextNodo.getBlackHorsePosition().contains(piezasamatar.get(j))) {
+                countDeadPieces ++;
+            }
         }
         
-        if (f){
-            resultadoff=h;
-        //for (int hh=0;hh<h.size();hh++){
-        // resultadoff.add(h.get(hh));
-        //}
+        if (countDeadPieces == totalWhiteHorses){
+            resultadoff = nextNodo.getBlackHorsePosition();
         }
         
-        return(f);
+        return countDeadPieces == totalWhiteHorses;
     }
 
-    public static void generarnodoseinsertar (ArrayList <Integer> t){
-        //Programa.deleteDuplicated();
-        int s= t.get(t.size()-1);   //posicion del nodo t en abiertos
-        int g=t.get(t.size()-2);  //ultima posicion de la secuencia de movimientos del nodo t
-        int c[]=new int[8];
-        c=(posiciones[(g/8)][(g-(8*(g/8)))]).posibilidades();
+    public static void generateNodoAndInsert (NodoInfo nextNodo) {
         
-        ArrayList <Integer> lasqquedanpormatar=new ArrayList();
-        ArrayList <Integer> tt=new ArrayList();
-        for (int j=2;j<t.size()-2;j++){
-            tt.add(t.get(j));
-        }  //en tt esta la cadena de movimientos actual
+        int positionInOpenList = nextNodo.getBlackHorsePosition().get(nextNodo.getBlackHorsePosition().size() - 1);   //posicion del nodo en abiertos
+        int lastPositionInNodo = nextNodo.getBlackHorsePosition().get(nextNodo.getBlackHorsePosition().size() - 2);  //ultima posicion de la secuencia de movimientos del nodo
+        
+        int movimientosPosibles[] = new int[8];
+        movimientosPosibles=(posiciones[(lastPositionInNodo/8)][(lastPositionInNodo-(8*(lastPositionInNodo/8)))]).posibilidades();
+        
+        ArrayList <Integer> whiteHorsesAlive=new ArrayList();
 
-        for (int kk=0; kk<piezasamatar.size();kk++){
-            if (!tt.contains(piezasamatar.get(kk))) lasqquedanpormatar.add(piezasamatar.get(kk));
+        for (int iterator=0; iterator<piezasamatar.size(); iterator++){
+            if (!nextNodo.getBlackHorsePosition().contains(piezasamatar.get(iterator))) 
+                whiteHorsesAlive.add(piezasamatar.get(iterator));
         }
         
-        for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
-            if (c[j]<65){
-                ArrayList <Integer> h=new ArrayList();
-                int v;
-                for (int pppp=0; pppp<t.size(); pppp++){
-                    v=t.get(pppp);
-                    h.add(v);
+        for (int j=0; j<movimientosPosibles.length; j++){   //itero por todas las posiciones posibles
+            if (movimientosPosibles[j]<65){
+                NodoInfo nextNodoToInsert = new NodoInfo();
+                nextNodoToInsert.setBlackHorsePosition(lastPositionInNodo);
+                nextNodoToInsert.getBlackHorsePosition().remove(nextNodoToInsert.getBlackHorsePosition().size()-1);  //borramos el ultimo elemento ya que era el de la posicion en abiertos
+                nextNodoToInsert.getBlackHorsePosition().add(movimientosPosibles[j]);
+                nextNodoToInsert.setWeight(nextNodoToInsert.getWeight()+1);
+                nextNodoToInsert.setHeuristica(Programa.heuristica(whiteHorsesAlive));
+                abiertos.add(positionInOpenList,nextNodoToInsert);
+                for(int iterator=0; iterator<abiertos.get(positionInOpenList).getBlackHorsePosition().size();iterator++) {
+                    System.out.println(abiertos.get(positionInOpenList).getBlackHorsePosition().get(iterator)+" stepInNode: "+iterator);
                 }
-                h.remove(h.size()-1);  //borramos el ultimo elemento ya que era el de la posicion en abiertos
-                h.add(c[j]);
-                int k=h.get(0);
-                k++;
-                h.set(0,k);
-                h.set(1,Programa.heuristica(lasqquedanpormatar));
-                abiertos.add(s,h);
-                for(int gg=0;gg<abiertos.get(s).size();gg++) System.out.println(abiertos.get(s).get(gg)+"aaaa");
-                if(j==0) abiertos.remove(s+1);
-                s++;
+                if(j==0) {
+                    abiertos.remove(positionInOpenList+1);
+                }
+                positionInOpenList++;
             }
         }
     }
     
-    public static int heuristica(ArrayList<Integer> lasqquedanpormatar) {  
-        return (1000-(total-(lasqquedanpormatar.size()))*6);
+    public static int heuristica(ArrayList<Integer> whiteHorsesAlive) {  
+        return (1000-(totalWhiteHorses-(whiteHorsesAlive.size()))*6);
     }
     
-    public static ArrayList <Integer> aestrella(int posnegroo){
-        total=piezasamatar.size();
-        ArrayList <Integer> j= new ArrayList();
-        j.add(0);
-        j.add(Programa.heuristica(piezasamatar));
-        j.add(posnegroo);
+    public static ArrayList <Integer> aStar(int positionBlackHorses){
+        totalWhiteHorses=piezasamatar.size();
         
-        boolean v=true;
-        abiertos.add(j);
+        NodoInfo nodoInfo = new NodoInfo();
         
+        nodoInfo.setWeight(0);
+        nodoInfo.setHeuristica(Programa.heuristica(piezasamatar));
+        nodoInfo.setBlackHorsePosition(positionBlackHorses);
         
-        while(v){
-            ArrayList <Integer> u=Programa.obtenermenorf();   //la ultima posicion de u es la posicion dentro de abiertos donde esta el menor
+        abiertos.add(nodoInfo);
+        
+        boolean isAllDead = true;
+        while(isAllDead){
+            NodoInfo nextNodo = Programa.getNodoByMinHeuristica();   //la ultima posicion de u es la posicion dentro de abiertos donde esta el menor
             
-            if (!Programa.killAll(u)){
-                Programa.generarnodoseinsertar(u);}
-            else
-            { v=false;
-            for (int y=0;y<abiertos.size();y++){
-                
-                for (int c=0;c<abiertos.get(y).size();c++){ System.out.println(abiertos.get(y).get(c));}
+            if (!Programa.killAllAStar(nextNodo)){
+                Programa.generateNodoAndInsert(nextNodo);
+            } else {
+                isAllDead=false;
+                /*
+                for (int y=0;y<abiertos.size();y++) {
+                    for (int c=0;c<abiertos.get(y).size();c++){ 
+                        System.out.println(abiertos.get(y).get(c));
+                    }
+                }
+                */
             }
-            }
-            //u.clear();
         }
         
-        for (int l=0;l<resultadoff.size();l++) System.out.println(resultadoff.get(l));
+        for (int l=0;l<resultadoff.size();l++) {
+            System.out.println(resultadoff.get(l));
+        }
+        
         return (resultadoff);
     }
     
     public static void deleteDuplicated()
     {
-        ArrayList <Integer> posicionesaborrar=new ArrayList() ; int ultimodeu;
+        ArrayList <Integer> posicionesaborrar=new ArrayList() ; 
+        int ultimaPosicionNodoActual;
         
-        for (int u=0; u<abiertos.size();u++){
-            ultimodeu=abiertos.get(u).get(((abiertos.get(u)).size())-1); //ultimo elemento de la secuencia de movimientos del nodo u
-            for (int z=0; z<abiertos.size();z++){
-                if ((ultimodeu==abiertos.get(z).get(abiertos.get(z).size()-1))&((abiertos.get(z).get(0)+abiertos.get(z).get(1))>(abiertos.get(u).get(0)+abiertos.get(u).get(1))))
-                {if (!posicionesaborrar.contains(z))
-                {posicionesaborrar.add(z);}}
+        for (int iterator=0; iterator < abiertos.size();iterator++){
+            ultimaPosicionNodoActual = abiertos.get(iterator).getBlackHorsePosition().get(abiertos.get(iterator).getBlackHorsePosition().size()-1); //ultimo elemento de la secuencia de movimientos del nodo u
+            for (int secondIterator=0; secondIterator < abiertos.size(); secondIterator++){
+                if ((ultimaPosicionNodoActual == abiertos.get(secondIterator).getBlackHorsePosition().get(abiertos.get(secondIterator).getBlackHorsePosition().size()-1))
+                        &&((abiertos.get(secondIterator).getWeight()+abiertos.get(secondIterator).getHeuristica())
+                        >(abiertos.get(iterator).getWeight()+abiertos.get(iterator).getHeuristica()))) {
+                    if (!posicionesaborrar.contains(secondIterator)) {
+                        posicionesaborrar.add(secondIterator);}}
             }
             
         }
         
-        if (posicionesaborrar.isEmpty()) System.out.println("no hay nada para borrar");
-        int h; Collections.sort(posicionesaborrar);
+        if (posicionesaborrar.isEmpty()) {
+            System.out.println("no hay nada para borrar");
+        }
+        int h; 
+        Collections.sort(posicionesaborrar);
         while (!posicionesaborrar.isEmpty()){//ak va el codigo para eliminar posiciones repetidas de posiciones a borrar!!
+            System.out.println("hay duplicados para borrar");
             h=posicionesaborrar.get(0);
             abiertos.remove(h);
             posicionesaborrar.remove(0);
