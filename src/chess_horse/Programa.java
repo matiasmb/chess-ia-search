@@ -222,10 +222,7 @@ public class Programa {
     public static ArrayList<Integer> buscarAmplitud(ArrayList<ArrayList<Integer>> recorridos) {
         ArrayList<ArrayList<Integer>> nuevosRecorridos = new ArrayList();
         for (ArrayList<Integer> recorrido : recorridos) {
-            int i = recorrido.get(recorrido.size()-1)/8;
-            int j = recorrido.get(recorrido.size()-1) - recorrido.get(recorrido.size()-1)/8*8;
-            int movimientos[] = posiciones[i][j].posibilidades();
-            
+            int movimientos[] = obtenerMovimientos(recorrido);
             for (int movimiento : movimientos) {
                 if (movimiento < 65) {
                     ArrayList<Integer> nuevoRecorrido = new ArrayList();
@@ -242,8 +239,14 @@ public class Programa {
 
         return Programa.buscarAmplitud(nuevosRecorridos);
     }
+    
+    static int[] obtenerMovimientos(ArrayList<Integer> recorrido) {
+        int i = recorrido.get(recorrido.size()-1)/8;
+        int j = recorrido.get(recorrido.size()-1) - recorrido.get(recorrido.size()-1)/8*8;
+        return posiciones[i][j].posibilidades();
+    }
 
-    public static boolean isFinished(ArrayList<Integer> recorrido) {
+    static boolean isFinished(ArrayList<Integer> recorrido) {
         for (Integer pieza : piezasamatar) {
             if (!recorrido.contains(pieza))
                 return false;
@@ -271,10 +274,7 @@ public class Programa {
         if (nivel > corte) 
             return null;
         
-        int i = recorrido.get(recorrido.size()-1)/8;
-        int j = recorrido.get(recorrido.size()-1) - recorrido.get(recorrido.size()-1)/8*8;
-        int movimientos[] = posiciones[i][j].posibilidades();
-            
+        int movimientos[] = obtenerMovimientos(recorrido);
         for (int movimiento : movimientos) {
             if (movimiento < 65) {
                 ArrayList<Integer> nuevoRecorrido = new ArrayList();
@@ -291,53 +291,6 @@ public class Programa {
         }
         
         return null;
-    }
-    
-    static ArrayList<Integer> profundidad(int pos, int nivel, int anterior) {
-        if (nivel==corte+1) {
-            ArrayList<Integer> p = new ArrayList();
-            p.add(999);
-            return(p);
-        }
-        
-        int antes=piezasamatar.size();
-        if (Programa.killAll(pos)){
-            ArrayList <Integer> p= new ArrayList <Integer>();
-            p.add(pos);
-            return(p);
-        }
-        if(antes!=piezasamatar.size())     //controlo si mate solo 1, pongo nivel a 0
-            nivel=0;
-        else
-            nivel++;
-        int []pp=new int[8];
-        pp= (posiciones[(pos/8)][(pos-(8*(pos/8)))]).posibilidades();
-        for (int i=0;i<pp.length;i++){
-            if(pp[i]<65 && pp[i]!=anterior ){
-                ArrayList <Integer> j=new ArrayList <Integer>();
-                j=Programa.profundidad(pp[i],nivel,pos);
-                if (j.get(0)<65)   //primera posicion
-                {
-                    j.add(0,pos);  //ver
-                    
-                    return (j);
-                }
-            }
-            
-        }
-        ArrayList <Integer> p=new ArrayList<Integer> ();
-        p.add(999);
-        return(p);
-    }
-    
-    public static boolean killAll(int positionPieceToDelete){
-        if (piezasamatar.contains(positionPieceToDelete)){
-            for (int y=0;y<piezasamatar.size();y++){
-                if (piezasamatar.get(y)==positionPieceToDelete) piezasamatar.remove(y);    //eliminamos la pieza que matamos
-            }
-            
-        }
-        return(piezasamatar.isEmpty());
     }
     
     public static void main() {
