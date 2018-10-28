@@ -207,7 +207,7 @@ public class Programa {
 //*******************************************************************   A*  **************************+
     
     public static boolean mataralguno(int f[]) {
-    
+
     boolean p=true;
     
     for (int pp=0;pp< piezasamatar.size();pp++){
@@ -237,67 +237,47 @@ public class Programa {
     }
     
     public static ArrayList<Integer> amplitud(int posicionInicial){
-        nivel.add(posicionInicial);  //posición inicial del caballo negro
-        Programa.buscarAmplitud(1);  //empezamos del primer nivel
-        return result;
+        ArrayList<ArrayList<Integer>> recorridos = new ArrayList();
+        ArrayList<Integer> recorrido = new ArrayList();
+        recorrido.add(posicionInicial);
+        
+        if (Programa.isFinished(recorrido))
+                return recorrido;
+        
+        recorridos.add(recorrido);
+        return Programa.buscarAmplitud(1, recorridos);
     }
     
-    public static void buscarAmplitud(int niv) {
-        int arraydenivel[]=new int[nivel.size()];
-        for (int r=0;r<nivel.size();r++){          //cargo el arreglo de nivel
-            arraydenivel[r]=nivel.get(r);
-        }
+    public static ArrayList<Integer> buscarAmplitud(int niv, ArrayList<ArrayList<Integer>> recorridos) {
+        ArrayList<ArrayList<Integer>> nuevosRecorridos = new ArrayList();
+        for (ArrayList<Integer> recorrido : recorridos) {
+            int i = recorrido.get(recorrido.size()-1)/8;
+            int j = recorrido.get(recorrido.size()-1) - recorrido.get(recorrido.size()-1)/8*8;
+            int movimientos[] = posiciones[i][j].posibilidades();
             
-        for (int y=0; y<((arraydenivel.length)/niv);y++){
-            int c[] = new int[niv];
-            System.arraycopy(arraydenivel, y*niv, c, 0, niv);
-            if (Programa.isFinished(c))
-                return;
-        }
-
-        //hasta aca nos fijamos si matamos algo en el nivel correspondiente, ahora debemos generar el siguiente nivel
-        ArrayList <Integer> h= new ArrayList();
-        for (int j=0;(j<(arraydenivel.length)/niv);j++){
-            int []p=new int [niv];            //p contiene todos los elementos de un nodo correspondiente
-            System.arraycopy(arraydenivel, j*niv, p, 0, niv); //ahora si p contiene todos los elementos de un nodo correspondiente jej
-            int pos[]=new int[8];
-            int g=(p[p.length-1]/8);
-            int y =((p[p.length-1])-(8*(p[p.length-1]/8)));   //calculo la posicion en la matriz del elemento ultimo, para asi poder anexar con cada uno de sus sucesores
-    
-            pos = posiciones[g][y].posibilidades();   //simplemente busco las posiciones posibles en formato array del ultimo elemento del array p
-            for (int k=0; k<pos.length; k++) {
-                if (pos[k]<65) {
-                    for (int i = 0; i<p.length; i++) {
-                        h.add(p[i]);
-                    }
-                    h.add(pos[k]);
+            for (int movimiento : movimientos) {
+                if (movimiento < 65) {
+                    ArrayList<Integer> nuevoRecorrido = new ArrayList();
+                    nuevoRecorrido.addAll(recorrido);
+                    nuevoRecorrido.add(movimiento);
+                    
+                    if (Programa.isFinished(nuevoRecorrido))
+                        return nuevoRecorrido;
+                    
+                    nuevosRecorridos.add(nuevoRecorrido);
                 }
             }
         }
-        
-        nivel=h;
-        Programa.buscarAmplitud(niv+1);
+
+        return Programa.buscarAmplitud(niv+1, nuevosRecorridos);
     }
-    
-    public static boolean isFinished(int rec[]) {
-        
-        ArrayList<Integer> recorrido = new ArrayList();
-        for (int casilla : rec) {
-            recorrido.add(casilla);
-        }
-    
+
+    public static boolean isFinished(ArrayList<Integer> recorrido) {
         for (Integer pieza : piezasamatar) {
             if (!recorrido.contains(pieza))
                 return false;
         }
-        
-        //return true;
-        
-        for (Integer casilla : recorrido) {
-            result.add(casilla);
-        }
-        
-        piezasamatar.clear();
+
         return true;
     }
     
