@@ -1292,8 +1292,11 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
     Programa.main();
     Programa.cargarpiezasamatar(whiteHorses);
     int g= whiteHorses.size();
-    result=Programa.profundidad(posBlack, 0, 999);
-    jLabel17.setText("El proceso ha finalizado exitosamente");
+    result=Programa.profundidad(posBlack);
+    if (result != null)
+        jLabel17.setText("El proceso ha finalizado exitosamente");
+    else
+        jLabel17.setText("No se pudo encontrar una solución");
    result.remove(0);
    timeStart=(System.nanoTime()-timeStart)/(1000000);
  

@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="10c99e93-3e46-4bb8-aaa0-98ae0d7c380d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/build/classes/chess_horse/ChesseHorseView$17.class" afterPath="$PROJECT_DIR$/build/classes/chess_horse/ChesseHorseView$17.class" />
-      <change beforePath="$PROJECT_DIR$/build/classes/chess_horse/ChesseHorseView$18.class" afterPath="$PROJECT_DIR$/build/classes/chess_horse/ChesseHorseView$18.class" />
-      <change beforePath="$PROJECT_DIR$/build/classes/chess_horse/ChesseHorseView.class" afterPath="$PROJECT_DIR$/build/classes/chess_horse/ChesseHorseView.class" />
-      <change beforePath="$PROJECT_DIR$/build/classes/chess_horse/ChesseHorseView.form" afterPath="$PROJECT_DIR$/build/classes/chess_horse/ChesseHorseView.form" />
-      <change beforePath="$PROJECT_DIR$/build/classes/chess_horse/Programa.class" afterPath="$PROJECT_DIR$/build/classes/chess_horse/Programa.class" />
-      <change beforePath="$PROJECT_DIR$/build/classes/chess_horse/resources/ChesseHorseView.properties" afterPath="$PROJECT_DIR$/build/classes/chess_horse/resources/ChesseHorseView.properties" />
-      <change beforePath="$PROJECT_DIR$/src/chess_horse/ChesseHorseView.form" afterPath="$PROJECT_DIR$/src/chess_horse/ChesseHorseView.form" />
-      <change beforePath="$PROJECT_DIR$/src/chess_horse/ChesseHorseView.java" afterPath="$PROJECT_DIR$/src/chess_horse/ChesseHorseView.java" />
-      <change beforePath="$PROJECT_DIR$/src/chess_horse/Programa.java" afterPath="$PROJECT_DIR$/src/chess_horse/Programa.java" />
-      <change beforePath="$PROJECT_DIR$/src/chess_horse/resources/ChesseHorseView.properties" afterPath="$PROJECT_DIR$/src/chess_horse/resources/ChesseHorseView.properties" />
-    </list>
+    <list default="true" id="10c99e93-3e46-4bb8-aaa0-98ae0d7c380d" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,12 +18,14 @@
             <state relative-caret-position="2160">
               <caret line="146" column="12" lean-forward="false" selection-start-line="146" selection-start-column="12" selection-end-line="146" selection-end-column="12" />
               <folding>
-                <element signature="e#12820#12821#0" expanded="true" />
-                <element signature="e#12843#12844#0" expanded="true" />
-                <element signature="e#13017#13026#0" expanded="true" />
-                <element signature="e#13211#13220#0" expanded="true" />
-                <element signature="e#13658#13667#0" expanded="true" />
-                <element signature="e#13992#14001#0" expanded="true" />
+                <element signature="e#12137#12138#0" expanded="true" />
+                <element signature="e#12160#12161#0" expanded="true" />
+                <element signature="e#12334#12343#0" expanded="true" />
+                <element signature="e#12528#12537#0" expanded="true" />
+                <element signature="e#12975#12984#0" expanded="true" />
+                <element signature="e#13309#13318#0" expanded="true" />
+                <marker date="1540735811193" expanded="true" signature="10723:10750" ph="{...}" />
+                <marker date="1540735811193" expanded="true" signature="13790:22573" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -278,12 +269,12 @@
       <option name="presentableId" value="Default" />
       <updated>1527957754697</updated>
       <workItem from="1527957758768" duration="40000" />
-      <workItem from="1540658315499" duration="3039000" />
+      <workItem from="1540658315499" duration="3136000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3079000" />
+    <option name="totallyTimeSpent" value="3176000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -441,12 +432,14 @@
         <state relative-caret-position="2160">
           <caret line="146" column="12" lean-forward="false" selection-start-line="146" selection-start-column="12" selection-end-line="146" selection-end-column="12" />
           <folding>
-            <element signature="e#12820#12821#0" expanded="true" />
-            <element signature="e#12843#12844#0" expanded="true" />
-            <element signature="e#13017#13026#0" expanded="true" />
-            <element signature="e#13211#13220#0" expanded="true" />
-            <element signature="e#13658#13667#0" expanded="true" />
-            <element signature="e#13992#14001#0" expanded="true" />
+            <element signature="e#12137#12138#0" expanded="true" />
+            <element signature="e#12160#12161#0" expanded="true" />
+            <element signature="e#12334#12343#0" expanded="true" />
+            <element signature="e#12528#12537#0" expanded="true" />
+            <element signature="e#12975#12984#0" expanded="true" />
+            <element signature="e#13309#13318#0" expanded="true" />
+            <marker date="1540735811193" expanded="true" signature="10723:10750" ph="{...}" />
+            <marker date="1540735811193" expanded="true" signature="13790:22573" ph="{...}" />
           </folding>
         </state>
       </provider>
