@@ -12,14 +12,14 @@ public class Programa {
     public static int anterior=234;
     public static int control=0;   //variable global
     public static int corte=0;
-    public static int total;
+    public static int totalWhiteHorses;
     
     public static void  resetear() {
         piezasamatar.clear();
         abiertos.clear();
-        resultadoff.clear(); 
-        anterior=234; 
-        total=0; 
+        resultadoff.clear();
+        anterior=234;
+        totalWhiteHorses=0;
         corte=0;
         control=0;
     }
@@ -65,8 +65,8 @@ public class Programa {
         if (abiertos.size()>1) {
             Programa.deleteDuplicated();
         }
-        
-        int pos=0; 
+
+        int pos=0;
         int costoTotalMin = 0;
         
         for (int j=0;j<abiertos.size();j++){
@@ -82,7 +82,7 @@ public class Programa {
         p.add(pos);
         return(p);
     }
-    
+
     public static boolean killAllAStar(ArrayList<Integer> bestNodoSelected){
         boolean isAllKill=true;
         ArrayList<Integer> recorrido= new ArrayList();
@@ -104,11 +104,11 @@ public class Programa {
 
     public static void generateNodeAndInsert (ArrayList<Integer> bestNodo){
 
-        int positionInOpenList = bestNodo.get(bestNodo.size()-1);   
-        int lastPositionOfNode = bestNodo.get(bestNodo.size()-2);  
+        int positionInOpenList = bestNodo.get(bestNodo.size()-1);
+        int lastPositionOfNode = bestNodo.get(bestNodo.size()-2);
         int posibleNewPositions[]=new int[8];
         posibleNewPositions =(posiciones[(lastPositionOfNode/8)][(lastPositionOfNode-(8*(lastPositionOfNode/8)))]).posibilidades();
-        
+
         ArrayList <Integer> whiteHorseAlive=new ArrayList();
         ArrayList <Integer> recorrido=new ArrayList();
         for (int j=2;j<bestNodo.size()-2;j++){
@@ -118,7 +118,7 @@ public class Programa {
         for (int iterator=0; iterator<piezasamatar.size();iterator++){
             if (!recorrido.contains(piezasamatar.get(iterator))) whiteHorseAlive.add(piezasamatar.get(iterator));
         }
-        
+
         for (int j=0; j <posibleNewPositions.length;j++){   //itero por todas las posiciones posibles
             if (posibleNewPositions[j]<65){
                 ArrayList <Integer> nodoToInsert=new ArrayList();
@@ -133,9 +133,9 @@ public class Programa {
                 weight++;
                 nodoToInsert.set(0,weight);
                 nodoToInsert.set(1,Programa.heuristica(whiteHorseAlive));
-                
+
                 abiertos.add(positionInOpenList,nodoToInsert);
-                
+
                 if(j==0) {
                     abiertos.remove(positionInOpenList+1);
                 }
@@ -144,12 +144,12 @@ public class Programa {
         }
     }
     
-    public static int heuristica(ArrayList<Integer> whiteHorseAlive) {  
-        return (1000-(total-(whiteHorseAlive.size()))*6);
+    public static int heuristica(ArrayList<Integer> whiteHorseAlive) {
+        return (1000-(totalWhiteHorses-(whiteHorseAlive.size()))*6);
     }
     
     public static ArrayList <Integer> aStar(int posnegroo){
-        total=piezasamatar.size();
+        totalWhiteHorses=piezasamatar.size();
         ArrayList <Integer> firstNodo= new ArrayList();
         firstNodo.add(0);
         firstNodo.add(Programa.heuristica(piezasamatar));
@@ -166,14 +166,14 @@ public class Programa {
             } else {
                 isAllDead=false;
             for (int y=0;y<abiertos.size();y++){
-                
+
                 for (int c=0;c<abiertos.get(y).size();c++){
                     System.out.println(abiertos.get(y).get(c));
                 }
             }
             }
         }
-        
+
         return (resultadoff);
     }
     
@@ -244,7 +244,7 @@ public class Programa {
 
         return Programa.buscarAmplitud(nuevosRecorridos);
     }
-    
+
     static int[] obtenerMovimientos(ArrayList<Integer> recorrido) {
         int i = recorrido.get(recorrido.size()-1)/8;
         int j = recorrido.get(recorrido.size()-1) - recorrido.get(recorrido.size()-1)/8*8;
@@ -268,46 +268,46 @@ public class Programa {
     static ArrayList<Integer> profundidad(int posicionInicial) {
         ArrayList<Integer> recorrido = new ArrayList();
         recorrido.add(posicionInicial);
-        
+
         if (Programa.isFinished(recorrido))
                 return recorrido;
-        
+
         return Programa.buscarProfundidad(recorrido, 1);
     }
-    
+
     public static ArrayList<Integer> buscarProfundidad(ArrayList<Integer> recorrido, int nivel) {
-        if (nivel > corte) 
+        if (nivel > corte)
             return null;
-        
+
         int movimientos[] = obtenerMovimientos(recorrido);
         for (int movimiento : movimientos) {
             if (movimiento < 65) {
                 ArrayList<Integer> nuevoRecorrido = new ArrayList();
                 nuevoRecorrido.addAll(recorrido);
                 nuevoRecorrido.add(movimiento);
-                    
+
                 if (Programa.isFinished(nuevoRecorrido))
                     return nuevoRecorrido;
-                
+
                 ArrayList<Integer> resultado = Programa.buscarProfundidad(nuevoRecorrido, nivel+1);
                 if (resultado != null)
                     return resultado;
             }
         }
-        
+
         return null;
     }
     
     public static void main() {
         //arreglo bidimensional que va a contener todos los posibles movimientos del caballo de acuerdo al lugar donde este
         posicionesposiblesxpiezas t00=new posicionesposiblesxpiezas(17,10,9999,9999,9999,9999,999,999);
-        posiciones[0][0]=t00;      
+        posiciones[0][0]=t00;
         posicionesposiblesxpiezas t01=new posicionesposiblesxpiezas(16,18,11,999,999,9999,9999,999);
         posiciones [0][1]=t01;
         posicionesposiblesxpiezas t02=new posicionesposiblesxpiezas(8,17,19,12,999,999,999,9999);
         posiciones [0][2]=t02;
         posicionesposiblesxpiezas t03=new posicionesposiblesxpiezas(18,20,9,13,999,999,9999,9999);
-        posiciones [0][3]=t03;    
+        posiciones [0][3]=t03;
         posicionesposiblesxpiezas t04=new posicionesposiblesxpiezas(19,21,10,14,999,9999,999,999);
         posiciones [0][4]=t04;
         posicionesposiblesxpiezas t05=new posicionesposiblesxpiezas(20,22,11,15,999,999,999,999);
