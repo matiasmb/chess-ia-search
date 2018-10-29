@@ -122,10 +122,8 @@ public class Programa {
         for (int j=0; j <posibleNewPositions.length;j++){   //itero por todas las posiciones posibles
             if (posibleNewPositions[j]<65){
                 ArrayList <Integer> nodoToInsert=new ArrayList();
-                int aux;
                 for (int pppp=0; pppp<bestNodo.size(); pppp++){
-                    aux=bestNodo.get(pppp);
-                    nodoToInsert.add(aux);
+                    nodoToInsert.add(bestNodo.get(pppp));
                 }
                 nodoToInsert.remove(nodoToInsert.size()-1);  //borramos el ultimo elemento ya que era el de la posicion en abiertos
                 nodoToInsert.add(posibleNewPositions[j]);
