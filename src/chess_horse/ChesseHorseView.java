@@ -1355,9 +1355,11 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
     int g= whiteHorses.size();  
     
     
-    ArrayList <Integer> p= Programa.aestrella(posBlack);
-    jLabel17.setText("El proceso ha finalizado exitosamente");
-    result=p;
+    result = Programa.aStar(posBlack);
+    if (result != null)
+        jLabel17.setText("El proceso ha finalizado exitosamente");
+    else
+        jLabel17.setText("No se pudo encontrar una solución");
     result.remove(0);
     
     timeStart=(System.nanoTime()-timeStart)/(1000000);
