@@ -86,7 +86,7 @@ public class Programa {
 
     public static boolean killAllAStar(NodoInfo nextNodo){
 
-        int countDeadPieces = 0;
+        int countDeadPieces = 1;
 
         //ahora tengo q recorrer las cada una de las piezas a matar y preguntar si se encuentra en h, si todas estan es porque en la secuencia de movimientos mate todas!
         for (int j=0;j<piezasamatar.size();j++){
@@ -120,11 +120,16 @@ public class Programa {
         for (int j=0; j<movimientosPosibles.length; j++){   //itero por todas las posiciones posibles
             if (movimientosPosibles[j]<65){
                 NodoInfo nextNodoToInsert = new NodoInfo();
-                nextNodoToInsert.addBlackHorsePosition(lastPositionInNodo);
+                nextNodoToInsert.setHeuristica(nextNodo.getHeuristica());
+                nextNodoToInsert.setWeight(nextNodo.getWeight());
+                nextNodoToInsert.setBlackHorseRecorrido(nextNodo.getBlackHorseRecorrido());
+                
                 nextNodoToInsert.getBlackHorseRecorrido().remove(nextNodoToInsert.getBlackHorseRecorrido().size()-1);  //borramos el ultimo elemento ya que era el de la posicion en abiertos
+                
                 nextNodoToInsert.getBlackHorseRecorrido().add(movimientosPosibles[j]);
                 nextNodoToInsert.setWeight(nextNodoToInsert.getWeight()+1);
                 nextNodoToInsert.setHeuristica(Programa.heuristica(whiteHorsesAlive));
+                
                 abiertos.add(positionInOpenList,nextNodoToInsert);
                 for(int iterator=0; iterator<abiertos.get(positionInOpenList).getBlackHorseRecorrido().size();iterator++) {
                     System.out.println(abiertos.get(positionInOpenList).getBlackHorseRecorrido().get(iterator)+" stepInNode: "+iterator);
@@ -142,7 +147,7 @@ public class Programa {
     }
     
     public static ArrayList <Integer> aStar(int positionBlackHorses){
-        totalWhiteHorses=piezasamatar.size();
+        totalWhiteHorses = piezasamatar.size();
         
         NodoInfo nodoInfo = new NodoInfo();
         
@@ -155,18 +160,15 @@ public class Programa {
         boolean isAllDead = true;
         while(isAllDead){
             NodoInfo nextNodo = Programa.getNodoByMinHeuristica();   //la ultima posicion de u es la posicion dentro de abiertos donde esta el menor
-            
             if (!Programa.killAllAStar(nextNodo)){
                 Programa.generateNodoAndInsert(nextNodo);
             } else {
                 isAllDead=false;
-                /*
                 for (int y=0;y<abiertos.size();y++) {
-                    for (int c=0;c<abiertos.get(y).size();c++){
-                        System.out.println(abiertos.get(y).get(c));
+                    for (int c=0;c<abiertos.get(y).getBlackHorseRecorrido().size();c++){
+                        System.out.println(abiertos.get(y).getBlackHorseRecorrido().get(c));
                     }
                 }
-                */
             }
         }
         
@@ -183,24 +185,20 @@ public class Programa {
         int ultimaPosicionNodoActual;
         
         for (int iterator=0; iterator < abiertos.size();iterator++){
-            ultimaPosicionNodoActual = abiertos.get(iterator).getBlackHorseRecorrido().get(abiertos.get(iterator).getBlackHorseRecorrido().size()-1); //ultimo elemento de la secuencia de movimientos del nodo u
+            ultimaPosicionNodoActual = abiertos.get(iterator).getBlackHorseRecorrido().get(abiertos.get(iterator).getBlackHorseRecorrido().size()-1); //ultimo elemento de la secuencia de movimientos del nodo
             for (int secondIterator=0; secondIterator < abiertos.size(); secondIterator++){
                 if ((ultimaPosicionNodoActual == abiertos.get(secondIterator).getBlackHorseRecorrido().get(abiertos.get(secondIterator).getBlackHorseRecorrido().size()-1))
                         &&((abiertos.get(secondIterator).getWeight()+abiertos.get(secondIterator).getHeuristica())
-                        >(abiertos.get(iterator).getWeight()+abiertos.get(iterator).getHeuristica()))) {
+                        >(abiertos.get(iterator).getWeight() + abiertos.get(iterator).getHeuristica()))) {
                     if (!posicionesaborrar.contains(secondIterator)) {
                         posicionesaborrar.add(secondIterator);}}
             }
             
         }
         
-        if (posicionesaborrar.isEmpty()) {
-            System.out.println("no hay nada para borrar");
-        }
         int h;
         Collections.sort(posicionesaborrar);
         while (!posicionesaborrar.isEmpty()){//ak va el codigo para eliminar posiciones repetidas de posiciones a borrar!!
-            System.out.println("hay duplicados para borrar");
             h=posicionesaborrar.get(0);
             abiertos.remove(h);
             posicionesaborrar.remove(0);
