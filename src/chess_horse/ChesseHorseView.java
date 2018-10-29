@@ -1355,7 +1355,7 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
     int g= whiteHorses.size();  
     
     
-    ArrayList <Integer> p= Programa.aestrella(posBlack);
+    ArrayList <Integer> p= Programa.aStar(posBlack);
     jLabel17.setText("El proceso ha finalizado exitosamente");
     result=p;
     result.remove(0);

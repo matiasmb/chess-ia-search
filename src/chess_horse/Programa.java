@@ -61,135 +61,140 @@ public class Programa {
     
 //  *********************************************   A*  *************************************
     
-    public static ArrayList <Integer> obtenermenorf(){    //devuelve nodo donde esta el menor valor de la funcion euristica y le agrega como ultimo elemento la posicion de ese nodo en el arraylist abiertos
-        if (abiertos.size()>1)
+    public static ArrayList <Integer> getMinNodeByHeuristica(){    //devuelve nodo donde esta el menor valor de la funcion euristica y le agrega como ultimo elemento la posicion de ese nodo en el arraylist abiertos
+        if (abiertos.size()>1) {
             Programa.deleteDuplicated();
+        }
         
-        System.out.println(abiertos.size());
-        int costototal=((abiertos.get(0)).get(0))+((abiertos.get(0)).get(1));
+        int pos=0; 
+        int costoTotalMin = 0;
         
-        int pos=0; int costototalj=0;
         for (int j=0;j<abiertos.size();j++){
-            costototalj=abiertos.get(j).get(0) + abiertos.get(j).get(1);
-            if(costototal>costototalj)
-            {costototal=costototalj;
-            pos =j;}
+            int costoTotal=abiertos.get(j).get(0) + abiertos.get(j).get(1);
+            if(costoTotalMin != 0 && costoTotalMin>costoTotal) {
+                costoTotalMin=costoTotal;
+                pos =j;
+            } else {
+               costoTotalMin = costoTotal;
+            }
         }
         ArrayList <Integer> p=abiertos.get(pos);
         p.add(pos);
         return(p);
     }
     
-    public static boolean killAll(ArrayList<Integer> p){
-        boolean f=true;
-        ArrayList <Integer> h= new ArrayList();
-        for (int yy=2;yy<p.size()-1;yy++){
-            h.add(p.get(yy));  //ak lo que hago es deshacerme de las dos primeras posiciones de p, y  de la ultima, ya no hacen a las posiciones recorridas
+    public static boolean killAllAStar(ArrayList<Integer> bestNodoSelected){
+        boolean isAllKill=true;
+        ArrayList<Integer> recorrido= new ArrayList();
+        for (int yy=2;yy<bestNodoSelected.size()-1;yy++){
+            recorrido.add(bestNodoSelected.get(yy));  //ak lo que hago es deshacerme de las dos primeras posiciones de p, y  de la ultima, ya no hacen a las posiciones recorridas
         }
         //ahora tengo q recorrer las cada una de las piezas a matar y preguntar si se encuentra en h, si todas estan es porque en la secuencia de movimientos mate todas!
         for (int j=0;j<piezasamatar.size();j++){
-            if(!h.contains(piezasamatar.get(j)))
-                f=false;
+            if(!recorrido.contains(piezasamatar.get(j)))
+                isAllKill=false;
         }
         
-        if (f){
-            resultadoff=h;
-        //for (int hh=0;hh<h.size();hh++){
-        // resultadoff.add(h.get(hh));
-        //}
+        if (isAllKill){
+            resultadoff=recorrido;
         }
         
-        return(f);
+        return(isAllKill);
     }
 
-    public static void generarnodoseinsertar (ArrayList <Integer> t){
-        //Programa.deleteDuplicated();
-        int s= t.get(t.size()-1);   //posicion del nodo t en abiertos
-        int g=t.get(t.size()-2);  //ultima posicion de la secuencia de movimientos del nodo t
-        int c[]=new int[8];
-        c=(posiciones[(g/8)][(g-(8*(g/8)))]).posibilidades();
-        
-        ArrayList <Integer> lasqquedanpormatar=new ArrayList();
-        ArrayList <Integer> tt=new ArrayList();
-        for (int j=2;j<t.size()-2;j++){
-            tt.add(t.get(j));
-        }  //en tt esta la cadena de movimientos actual
+    public static void generateNodeAndInsert (ArrayList<Integer> bestNodo){
 
-        for (int kk=0; kk<piezasamatar.size();kk++){
-            if (!tt.contains(piezasamatar.get(kk))) lasqquedanpormatar.add(piezasamatar.get(kk));
+        int positionInOpenList = bestNodo.get(bestNodo.size()-1);   
+        int lastPositionOfNode = bestNodo.get(bestNodo.size()-2);  
+        int posibleNewPositions[]=new int[8];
+        posibleNewPositions =(posiciones[(lastPositionOfNode/8)][(lastPositionOfNode-(8*(lastPositionOfNode/8)))]).posibilidades();
+        
+        ArrayList <Integer> whiteHorseAlive=new ArrayList();
+        ArrayList <Integer> recorrido=new ArrayList();
+        for (int j=2;j<bestNodo.size()-2;j++){
+            recorrido.add(bestNodo.get(j));
         }
         
-        for (int j=0; j <c.length;j++){   //itero por todas las posiciones posibles
-            if (c[j]<65){
-                ArrayList <Integer> h=new ArrayList();
-                int v;
-                for (int pppp=0; pppp<t.size(); pppp++){
-                    v=t.get(pppp);
-                    h.add(v);
+        for (int iterator=0; iterator<piezasamatar.size();iterator++){
+            if (!recorrido.contains(piezasamatar.get(iterator))) whiteHorseAlive.add(piezasamatar.get(iterator));
+        }
+        
+        for (int j=0; j <posibleNewPositions.length;j++){   //itero por todas las posiciones posibles
+            if (posibleNewPositions[j]<65){
+                ArrayList <Integer> nodoToInsert=new ArrayList();
+                int aux;
+                for (int pppp=0; pppp<bestNodo.size(); pppp++){
+                    aux=bestNodo.get(pppp);
+                    nodoToInsert.add(aux);
                 }
-                h.remove(h.size()-1);  //borramos el ultimo elemento ya que era el de la posicion en abiertos
-                h.add(c[j]);
-                int k=h.get(0);
-                k++;
-                h.set(0,k);
-                h.set(1,Programa.heuristica(lasqquedanpormatar));
-                abiertos.add(s,h);
-                for(int gg=0;gg<abiertos.get(s).size();gg++) System.out.println(abiertos.get(s).get(gg)+"aaaa");
-                if(j==0) abiertos.remove(s+1);
-                s++;
+                nodoToInsert.remove(nodoToInsert.size()-1);  //borramos el ultimo elemento ya que era el de la posicion en abiertos
+                nodoToInsert.add(posibleNewPositions[j]);
+                int weight=nodoToInsert.get(0);
+                weight++;
+                nodoToInsert.set(0,weight);
+                nodoToInsert.set(1,Programa.heuristica(whiteHorseAlive));
+                
+                abiertos.add(positionInOpenList,nodoToInsert);
+                
+                if(j==0) {
+                    abiertos.remove(positionInOpenList+1);
+                }
+                positionInOpenList++;
             }
         }
     }
     
-    public static int heuristica(ArrayList<Integer> lasqquedanpormatar) {  
-        return (1000-(total-(lasqquedanpormatar.size()))*6);
+    public static int heuristica(ArrayList<Integer> whiteHorseAlive) {  
+        return (1000-(total-(whiteHorseAlive.size()))*6);
     }
     
-    public static ArrayList <Integer> aestrella(int posnegroo){
+    public static ArrayList <Integer> aStar(int posnegroo){
         total=piezasamatar.size();
-        ArrayList <Integer> j= new ArrayList();
-        j.add(0);
-        j.add(Programa.heuristica(piezasamatar));
-        j.add(posnegroo);
+        ArrayList <Integer> firstNodo= new ArrayList();
+        firstNodo.add(0);
+        firstNodo.add(Programa.heuristica(piezasamatar));
+        firstNodo.add(posnegroo);
         
-        boolean v=true;
-        abiertos.add(j);
+        boolean isAllDead=true;
+        abiertos.add(firstNodo);
         
         
-        while(v){
-            ArrayList <Integer> u=Programa.obtenermenorf();   //la ultima posicion de u es la posicion dentro de abiertos donde esta el menor
-            
-            if (!Programa.killAll(u)){
-                Programa.generarnodoseinsertar(u);}
-            else
-            { v=false;
+        while(isAllDead){
+            ArrayList <Integer> bestNodo = Programa.getMinNodeByHeuristica();   //la ultima posicion de u es la posicion dentro de abiertos donde esta el menor
+            if (!Programa.killAllAStar(bestNodo)){
+                Programa.generateNodeAndInsert(bestNodo);
+            } else {
+                isAllDead=false;
             for (int y=0;y<abiertos.size();y++){
                 
-                for (int c=0;c<abiertos.get(y).size();c++){ System.out.println(abiertos.get(y).get(c));}
+                for (int c=0;c<abiertos.get(y).size();c++){
+                    System.out.println(abiertos.get(y).get(c));
+                }
             }
             }
-            //u.clear();
         }
         
-        for (int l=0;l<resultadoff.size();l++) System.out.println(resultadoff.get(l));
         return (resultadoff);
     }
     
     public static void deleteDuplicated()
     {
-        ArrayList <Integer> posicionesaborrar=new ArrayList() ; int ultimodeu;
+        ArrayList <Integer> posicionesaborrar=new ArrayList() ;
         
         for (int u=0; u<abiertos.size();u++){
-            ultimodeu=abiertos.get(u).get(((abiertos.get(u)).size())-1); //ultimo elemento de la secuencia de movimientos del nodo u
+            int lastPosition=abiertos.get(u).get(((abiertos.get(u)).size())-1); //ultimo elemento de la secuencia de movimientos del nodo u
             for (int z=0; z<abiertos.size();z++){
-                if ((ultimodeu==abiertos.get(z).get(abiertos.get(z).size()-1))&((abiertos.get(z).get(0)+abiertos.get(z).get(1))>(abiertos.get(u).get(0)+abiertos.get(u).get(1))))
-                {if (!posicionesaborrar.contains(z))
-                {posicionesaborrar.add(z);}}
+                if ((lastPosition==abiertos.get(z).get(abiertos.get(z).size()-1))
+                        &&((abiertos.get(z).get(0)+abiertos.get(z).get(1)) >
+                        (abiertos.get(u).get(0)+abiertos.get(u).get(1)))) {
+                    if (!posicionesaborrar.contains(z)){
+                    posicionesaborrar.add(z);
+                }
+                }
             }
             
         }
         
-        if (posicionesaborrar.isEmpty()) System.out.println("no hay nada para borrar");
         int h; Collections.sort(posicionesaborrar);
         while (!posicionesaborrar.isEmpty()){//ak va el codigo para eliminar posiciones repetidas de posiciones a borrar!!
             h=posicionesaborrar.get(0);
