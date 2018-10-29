@@ -13,14 +13,12 @@ public class Estado implements Comparable<Estado> {
     }
     
     private int calcularPeso(ArrayList<Integer> recorrido) {
-        int peso = piezasamatar.size();
+        int peso = recorrido.size() - 1;
         
-        for (Integer casilla : recorrido) {
-            if (piezasamatar.contains(casilla))
-                peso--;
+        for (Integer pieza : piezasamatar) {
+            if (!recorrido.contains(pieza))
+                peso = peso + 5;
         }
-        
-        peso = peso + recorrido.size() - 1;
         
         return peso;
     }
