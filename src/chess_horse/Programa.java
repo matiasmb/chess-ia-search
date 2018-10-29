@@ -85,9 +85,7 @@ public class Programa {
     }
 
     public static boolean killAllAStar(NodoInfo nextNodo){
-
-        int countDeadPieces = 1;
-
+        int countDeadPieces = 0;
         //ahora tengo q recorrer las cada una de las piezas a matar y preguntar si se encuentra en h, si todas estan es porque en la secuencia de movimientos mate todas!
         for (int j=0;j<piezasamatar.size();j++){
             if(nextNodo.getBlackHorseRecorrido().contains(piezasamatar.get(j))) {
