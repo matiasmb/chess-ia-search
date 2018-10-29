@@ -1362,7 +1362,7 @@ if (result.get(posResult)==62) {jLabel0062.setVisible(false);jTextArea1.setText(
         jLabel17.setText("No se pudo encontrar una solución");
     result.remove(0);
     
-    timeStart=(System.nanoTime()-timeStart)/(1000000);
+    timeStart = (System.nanoTime()-timeStart)/(1000000);
   
 
    jLabel2.setText("Tiempo       " +String.valueOf(timeStart)+" milisegundos");// setLastTime();

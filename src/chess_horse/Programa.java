@@ -80,7 +80,7 @@ public class Programa {
 
         return Programa.buscarAmplitud(nuevosRecorridos);
     }
-    
+
     static int[] obtenerMovimientos(ArrayList<Integer> recorrido) {
         int i = recorrido.get(recorrido.size()-1)/8;
         int j = recorrido.get(recorrido.size()-1) - recorrido.get(recorrido.size()-1)/8*8;
@@ -104,17 +104,17 @@ public class Programa {
     static ArrayList<Integer> profundidad(int posicionInicial) {
         ArrayList<Integer> recorrido = new ArrayList();
         recorrido.add(posicionInicial);
-        
+
         if (Programa.isFinished(recorrido))
             return recorrido;
         
         return Programa.buscarProfundidad(recorrido, 1);
     }
-    
+
     public static ArrayList<Integer> buscarProfundidad(ArrayList<Integer> recorrido, int nivel) {
-        if (nivel > corte) 
+        if (nivel > corte)
             return null;
-        
+
         int movimientos[] = obtenerMovimientos(recorrido);
         for (int movimiento : movimientos) {
             ArrayList<Integer> nuevoRecorrido = new ArrayList();
@@ -128,7 +128,7 @@ public class Programa {
             if (resultado != null)
                 return resultado;
         }
-        
+
         return null;
     }
     
