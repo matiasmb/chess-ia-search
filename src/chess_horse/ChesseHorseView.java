@@ -159,8 +159,6 @@ public class ChesseHorseView extends FrameView {
         jButton1 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         jLabel006 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -227,6 +225,7 @@ public class ChesseHorseView extends FrameView {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jLabel17 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -267,7 +266,6 @@ public class ChesseHorseView extends FrameView {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableroMouseClicked(evt);
             }
-
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 TableroMouseEntered(evt);
             }
@@ -383,37 +381,37 @@ public class ChesseHorseView extends FrameView {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(23, 23, 23)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(jRadioButton4)
-                                                                .addGap(18, 18, 18)
-                                                                .addComponent(jLabel3)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addComponent(jRadioButton3)))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(78, 78, 78)
-                                                .addComponent(jButton2)))
-                                .addContainerGap(54, Short.MAX_VALUE))
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jRadioButton4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jRadioButton3)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jButton2)))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jRadioButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jRadioButton4)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2)
-                                .addContainerGap(16, Short.MAX_VALUE))
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jRadioButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton4)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         mainPanel.add(jPanel1);
@@ -449,28 +447,28 @@ public class ChesseHorseView extends FrameView {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton3)
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jButton3)
-                                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addComponent(jRadioButton1)
-                                                        .addGap(9, 9, 9)))
-                                        .addComponent(jRadioButton2))
-                                .addContainerGap(33, Short.MAX_VALUE))
+                            .addComponent(jRadioButton1)
+                            .addGap(9, 9, 9)))
+                    .addComponent(jRadioButton2))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jRadioButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton2)
-                                .addGap(24, 24, 24)
-                                .addComponent(jButton3)
-                                .addContainerGap(19, Short.MAX_VALUE))
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jRadioButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButton2)
+                .addGap(24, 24, 24)
+                .addComponent(jButton3)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         mainPanel.add(jPanel2);
@@ -493,32 +491,29 @@ public class ChesseHorseView extends FrameView {
             }
         });
         jPanel3.add(jRadioButton5);
-        jRadioButton5.setBounds(22, 58, 88, 23);
+        jRadioButton5.setBounds(20, 80, 250, 23);
 
         jRadioButton6.setText(resourceMap.getString("jRadioButton6.text")); // NOI18N
         jRadioButton6.setName("jRadioButton6"); // NOI18N
-        jRadioButton6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jRadioButton6MouseClicked(evt);
-            }
-
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jRadioButton6MousePressed(evt);
-            }
-        });
         jRadioButton6.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
-
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jRadioButton6AncestorAdded(evt);
             }
-
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
+        jRadioButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jRadioButton6MousePressed(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jRadioButton6MouseClicked(evt);
+            }
+        });
         jPanel3.add(jRadioButton6);
-        jRadioButton6.setBounds(23, 91, 47, 23);
+        jRadioButton6.setBounds(20, 120, 210, 23);
 
         jRadioButton7.setText(resourceMap.getString("jRadioButton7.text")); // NOI18N
         jRadioButton7.setName("jRadioButton7"); // NOI18N
@@ -528,9 +523,10 @@ public class ChesseHorseView extends FrameView {
             }
         });
         jPanel3.add(jRadioButton7);
-        jRadioButton7.setBounds(22, 26, 133, 23);
+        jRadioButton7.setBounds(20, 40, 300, 23);
 
         jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
+        jButton1.setEnabled(false);
         jButton1.setName("jButton1"); // NOI18N
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -543,24 +539,12 @@ public class ChesseHorseView extends FrameView {
         jTextField2.setText(resourceMap.getString("jTextField2.text")); // NOI18N
         jTextField2.setName("jTextField2"); // NOI18N
         jPanel3.add(jTextField2);
-        jTextField2.setBounds(270, 20, 51, 26);
+        jTextField2.setBounds(310, 30, 51, 40);
 
         jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
         jLabel8.setName("jLabel8"); // NOI18N
         jPanel3.add(jLabel8);
-        jLabel8.setBounds(155, 29, 100, 17);
-
-        jLabel15.setText(resourceMap.getString("jLabel15.text")); // NOI18N
-        jLabel15.setName("jLabel15"); // NOI18N
-        jPanel3.add(jLabel15);
-        jLabel15.setBounds(334, 58, 69, 20);
-
-        jLabel17.setText(resourceMap.getString("jLabel17.text")); // NOI18N
-        jLabel17.setToolTipText(resourceMap.getString("jLabel17.toolTipText")); // NOI18N
-        jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel17.setName("jLabel17"); // NOI18N
-        jPanel3.add(jLabel17);
-        jLabel17.setBounds(10, 120, 370, 40);
+        jLabel8.setBounds(210, 37, 100, 30);
 
         mainPanel.add(jPanel3);
         jPanel3.setBounds(480, 370, 390, 210);
@@ -904,17 +888,17 @@ public class ChesseHorseView extends FrameView {
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
         mainPanel.add(jLabel2);
-        jLabel2.setBounds(50, 470, 400, 30);
+        jLabel2.setBounds(20, 520, 400, 30);
 
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
         jLabel4.setName("jLabel4"); // NOI18N
         mainPanel.add(jLabel4);
-        jLabel4.setBounds(50, 510, 410, 20);
+        jLabel4.setBounds(20, 560, 410, 20);
 
         jLabel7.setText(resourceMap.getString("jLabel7.text")); // NOI18N
         jLabel7.setName("jLabel7"); // NOI18N
         mainPanel.add(jLabel7);
-        jLabel7.setBounds(50, 550, 410, 20);
+        jLabel7.setBounds(20, 600, 410, 20);
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
@@ -924,7 +908,14 @@ public class ChesseHorseView extends FrameView {
         jScrollPane1.setViewportView(jTextArea1);
 
         mainPanel.add(jScrollPane1);
-        jScrollPane1.setBounds(880, 380, 100, 170);
+        jScrollPane1.setBounds(880, 380, 100, 200);
+
+        jLabel17.setText(resourceMap.getString("jLabel17.text")); // NOI18N
+        jLabel17.setToolTipText(resourceMap.getString("jLabel17.toolTipText")); // NOI18N
+        jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel17.setName("jLabel17"); // NOI18N
+        mainPanel.add(jLabel17);
+        jLabel17.setBounds(20, 470, 370, 40);
 
         menuBar.setName("menuBar"); // NOI18N
 
@@ -971,27 +962,27 @@ public class ChesseHorseView extends FrameView {
         javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
-                statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 1025, Short.MAX_VALUE)
-                        .addGroup(statusPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(statusMessageLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 861, Short.MAX_VALUE)
-                                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(statusAnimationLabel)
-                                .addContainerGap())
+            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 1025, Short.MAX_VALUE)
+            .addGroup(statusPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(statusMessageLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 861, Short.MAX_VALUE)
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(statusAnimationLabel)
+                .addContainerGap())
         );
         statusPanelLayout.setVerticalGroup(
-                statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(statusPanelLayout.createSequentialGroup()
-                                .addComponent(statusPanelSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(statusMessageLabel)
-                                        .addComponent(statusAnimationLabel)
-                                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(3, 3, 3))
+            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(statusPanelLayout.createSequentialGroup()
+                .addComponent(statusPanelSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(statusMessageLabel)
+                    .addComponent(statusAnimationLabel)
+                    .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
         );
 
         setComponent(mainPanel);
@@ -2112,7 +2103,6 @@ public class ChesseHorseView extends FrameView {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void iniciar() {
-        jLabel17.setText("Aguarde por favor. Se le avisará cuando el proceso termine");
         Programa.main();
         Programa.cargarpiezasamatar(whiteHorses);
         timeStart = System.nanoTime();
@@ -2123,7 +2113,7 @@ public class ChesseHorseView extends FrameView {
             jLabel17.setText("No se pudo encontrar una solución");
             return;
         }
-        
+        jButton1.setEnabled(true);
         jLabel17.setText("El proceso ha finalizado exitosamente");
         result.remove(0);
         long time = (System.nanoTime() - timeStart) / 1000000;
@@ -2389,7 +2379,6 @@ public class ChesseHorseView extends FrameView {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
