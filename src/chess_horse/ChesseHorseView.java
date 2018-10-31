@@ -104,6 +104,8 @@ public class ChesseHorseView extends FrameView {
         mainPanel.setComponentZOrder(Tablero, 8);
         mainPanel.setComponentZOrder(jLabel11, 0);
         mainPanel.setComponentZOrder(jLabel19, 0);
+        
+        Programa.main();
     }
 
     @Action
@@ -2096,16 +2098,19 @@ public class ChesseHorseView extends FrameView {
 
             posResult++;
             mainPanel.repaint();
+            
+            if (posResult == result.size())
+                jButton1.setEnabled(false);
         }
-        jRadioButton5.setSelected(false);
-        jRadioButton6.setSelected(false);
-        jRadioButton7.setSelected(false);
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void iniciar() {
-        Programa.main();
         Programa.cargarpiezasamatar(whiteHorses);
         timeStart = System.nanoTime();
+        
+        jRadioButton5.setEnabled(false);
+        jRadioButton6.setEnabled(false);
+        jRadioButton7.setEnabled(false);
     }
     
     private void cargarResultado() {
@@ -2219,12 +2224,21 @@ public class ChesseHorseView extends FrameView {
         posBlack = 0;
         posResult = 0;
         
-        result.clear();
-        whiteHorses.clear();
+        if (result != null)
+            result.clear();
+        
+        if (whiteHorses != null)
+            whiteHorses.clear();
+        
+        jButton1.setEnabled(false);
         
         jRadioButton5.setSelected(false);
         jRadioButton6.setSelected(false);
         jRadioButton7.setSelected(false);
+        
+        jRadioButton5.setEnabled(true);
+        jRadioButton6.setEnabled(true);
+        jRadioButton7.setEnabled(true);
         
         Programa.resetear();
         
